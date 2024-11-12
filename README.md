@@ -10,7 +10,7 @@ The stats are exposed as an API as well as exported report (in XML format)
 ## API Usage
 
 ```python
-import python-extended-stats as st
+import python_extended_stats as st
 
 stats = ExtPythonStats("path/to/repo")
 

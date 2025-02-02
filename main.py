@@ -1,11 +1,11 @@
 import click
 
-from models.ext_python_stat import ExtPythonStats
+from models.ext_python_stats import ExtPythonStats
 
-
+# C:/Users/ASUS/PycharmProjects/Django/blogengine
 @click.command()
-@click.option('--path', '-p', required=True, help='Path to the repository.')
-@click.option('--xml_file_name', '-x', required=True, help='Name of the output XML file.')
+@click.option('--path', '-p', required=True, help='Path to the repository.', default="C:/Users/ASUS/PycharmProjects/Django/blogengine")
+@click.option('--xml_file_name', '-x', required=True, help='Name of the output XML file.', default="result_python_extended_stats.xml")
 def main(path, xml_file_name):
     """
     Main function of the project. Using an inserted path to the repository and a resultant XML filename,
@@ -18,7 +18,9 @@ def main(path, xml_file_name):
     Returns:
         None.
     """
-    pass
+    stats = ExtPythonStats(path)
+    stats.calculate_metrics_list()
+    stats.get_xml_report(xml_file_name)
 
 
 if __name__ == "__main__":

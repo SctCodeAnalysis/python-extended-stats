@@ -394,7 +394,7 @@ class ExtPythonStats:
 
         return total_params / total_functions if total_functions > 0 else 0
     
-    def __find_deprecated_methods(self) -> List: # TODO: перепроверить работу метода
+    def __find_deprecated_methods(self) -> List: # TODO: перепроверить работу метода !!!
         """
         Finds deprecated methods
 

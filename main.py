@@ -2,7 +2,7 @@ import click
 
 from models.ext_python_stats import ExtPythonStats
 
-# C:/Users/ASUS/PycharmProjects/Django/blogengine
+
 @click.command()
 @click.option('--path', '-p', required=True, help='Path to the repository.', default="C:/Users/ASUS/PycharmProjects/Django/blogengine")
 @click.option('--xml_file_name', '-x', required=True, help='Name of the output XML file.', default="result_python_extended_stats.xml")
@@ -18,9 +18,12 @@ def main(path, xml_file_name):
     Returns:
         None.
     """
-    stats = ExtPythonStats(path)
-    stats.calculate_metrics_list()
-    stats.get_xml_report(xml_file_name)
+    try:
+        stats = ExtPythonStats(path)
+        stats.calculate_metrics_list()
+        stats.get_xml_report(xml_file_name)
+    except Exception as e:
+        print(f"Got an exception here: {e}")
 
 
 if __name__ == "__main__":

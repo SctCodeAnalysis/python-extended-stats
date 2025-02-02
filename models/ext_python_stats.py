@@ -8,6 +8,7 @@ import xml.dom.minidom
 
 from models.metric import Metric
 from docs.metrics_list import metrics_list
+from config import VENV_DIRS
 
 
 class ExtPythonStats:
@@ -24,13 +25,17 @@ class ExtPythonStats:
         Initiates an example of ExtPythonStats.
 
         Args:
-            path (str): Path to the repository to analyse..
+            repo_path (str): Path to the repository to analyse.
         """
         self.path = repo_path
         self.repo_path = Path(self.path)
 
         self.all_files = list(self.repo_path.rglob("*"))
-        self.py_files = list(self.repo_path.rglob("*.py"))
+        
+        self.py_files = [
+            f for f in self.repo_path.rglob("*.py")
+            if not any(part in VENV_DIRS for part in f.parts)
+        ]
 
         self.parsed_py_files = []
 
@@ -113,6 +118,10 @@ class ExtPythonStats:
         self.metrics_result["Average Number of Methods per Class"] = self.__count_average_number_of_methods_per_class()
         self.metrics_result["Average Number of Parameters per Method or Function"] = self.__count_average_number_of_params_per_method_of_function()
         self.metrics_result["Number of deprecated methods"] = self.__find_deprecated_methods()
+        self.metrics_result["Number of Functions or Methods Without Docstrings"] = self.__count_number_of_functions_or_methods_without_docstrings()
+        self.metrics_result["Number of Functions or Methods Without Typing"] = self.__count_number_of_functions_or_methods_without_typing()
+        self.metrics_result["Number of Context Managers"] = self.__count_number_of_context_managers()
+        self.metrics_result["Number of Handled Exceptions"] = self.__count_number_of_handled_exceptions()
 
     def __count_number_of_classes(self) -> int:
         """
@@ -416,3 +425,94 @@ class ExtPythonStats:
                                 deprecated_methods.append(f"{node.name}.{subnode.name}")
 
         return deprecated_methods
+
+    def __count_number_of_functions_or_methods_without_docstrings(self) -> int:
+        """
+        Walks all methods and functions and counts the number of those that have no docstring
+
+        Returns: 
+            int: Number of Functions or Methods Without Docstrings
+        """
+        counter = 0
+
+        for parsed_ast in self.parsed_py_files:
+            for node in ast.walk(parsed_ast):
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    if not ast.get_docstring(node):
+                        counter += 1
+        return counter
+
+    def __count_number_of_functions_or_methods_without_typing(self) -> int:
+        """
+        Walks all methods and functions and counts those that have no typing used in them
+        
+        Returns:
+            int: Number of Functions or Methods Without Typing
+        """
+        count = 0
+
+        for parsed_ast in self.parsed_py_files:
+            for node in ast.walk(parsed_ast):
+                if isinstance(node, ast.FunctionDef):
+                    has_typing = True
+
+                    args = node.args
+                    all_args = (
+                        args.posonlyargs
+                        + args.args 
+                        + ([] if args.vararg is None else [args.vararg])  # *args
+                        + args.kwonlyargs
+                        + ([] if args.kwarg is None else [args.kwarg])     # **kwargs
+                    )
+                    
+                    for arg in all_args:
+                        if arg.annotation is None:
+                            has_typing = False
+                            break
+                    
+                    if node.returns is None:
+                        has_typing = False
+                    
+                    if not has_typing:
+                        count += 1
+
+        return count
+    
+    def __count_number_of_context_managers(self) -> int:
+        """
+        Calculates a number of context managers in python files
+
+        Returns:
+            int: Context Managers number
+        
+        """
+        context_manager_count = 0
+
+        for parsed_ast in self.parsed_py_files:
+            for node in ast.walk(parsed_ast):
+                if isinstance(node, ast.With):
+                    context_manager_count += len(node.items)
+
+        return context_manager_count
+    
+    def __count_number_of_handled_exceptions(self) -> int: 
+        """
+        Walking through all py files, counts the number of handled exceptions
+
+        Returns:
+            int: Number of handled exceptions
+        """
+        handled_exceptions = set()
+
+        for tree in self.parsed_py_files:
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Try):
+                    for handler in node.handlers:
+                        if handler.type:
+                            if isinstance(handler.type, ast.Tuple):
+                                for exc in handler.type.elts:
+                                    handled_exceptions.add(ast.unparse(exc).strip())
+                            else:
+                                handled_exceptions.add(ast.unparse(handler.type).strip())
+
+        return len(handled_exceptions)

@@ -4,7 +4,7 @@ import ast
 from models.project_metrics import ProjectMetrics
 
 
-class CodeStructursMetrics(ProjectMetrics):
+class CodeStructuresMetrics(ProjectMetrics):
     """
     Class for code structure metrics
     """

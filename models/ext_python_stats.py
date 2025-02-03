@@ -7,7 +7,7 @@ from datetime import datetime
 import xml.dom.minidom
 
 from models.project_metrics import ProjectMetrics
-from models.code_structure_metrics import CodeStructursMetrics
+from models.code_structure_metrics import CodeStructuresMetrics
 from models.dependency_and_coupling_metrics import DependencyAndCouplingMetrics
 from models.CBO_metric import CBOMetric
 from models.project_file_structure_metrics import ProjectFileStructureMetrics
@@ -111,7 +111,7 @@ class ExtPythonStats:
             Dict: Metrics dict
         """
         result_metrics_dict = {}
-        result_metrics_dict = {**result_metrics_dict, **CodeStructursMetrics().value(self.parsed_py_files)}
+        result_metrics_dict = {**result_metrics_dict, **CodeStructuresMetrics().value(self.parsed_py_files)}
         result_metrics_dict = {**result_metrics_dict, **DependencyAndCouplingMetrics().value(self.parsed_py_files, self.all_files)}
         result_metrics_dict = {**result_metrics_dict, **CBOMetric().value(self.parsed_py_files)}
         result_metrics_dict = {**result_metrics_dict, **ProjectFileStructureMetrics().value(self.all_files, self.repo_path)}

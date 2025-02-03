@@ -4,51 +4,38 @@ from pathlib import Path
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.append(str(PROJECT_ROOT))
 
-import unittest
+import pytest
 import ast
-import tempfile
-from pathlib import Path
-from typing import List, Dict
+from typing import List
 
 from models.average_based_metrics import AverageBasedMetrics
 
-class TestAverageBasedMetrics(unittest.TestCase):
-    def setUp(self):
-        self.metrics = AverageBasedMetrics()
-        self.py_files: List[Path] = []
-        self.parsed_py_files: List[ast.Module] = []
+@pytest.fixture
+def metrics():
+    return AverageBasedMetrics()
 
-    def tearDown(self):
-        for file in self.py_files:
-            file.unlink()
+def test_average_lines_per_file_no_files(metrics):
+    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_file([])
+    assert result == 0
 
-    def create_temp_py_file(self, content: str) -> Path:
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as tmp:
-            tmp.write(content)
-            tmp_path = Path(tmp.name)
-            self.py_files.append(tmp_path)
-            return tmp_path
+def test_average_lines_per_file(metrics, tmp_path):
+    # Создаем временные файлы
+    file1 = tmp_path / "file1.py"
+    file1.write_text("a = 1\nb = 2\nc = 3")
+    
+    file2 = tmp_path / "file2.py"
+    file2.write_text("x = 4\ny = 5\nz = 6\nw = 7\nv = 8")
+    
+    files = [file1, file2]
+    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_file(files)
+    assert result == (3 + 5) / 2
 
-    def parse_code(self, code: str) -> ast.Module:
-        return ast.parse(code)
+def test_average_lines_per_method_no_methods(metrics):
+    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_method([])
+    assert result == 0
 
-    def test_average_lines_per_file_no_files(self):
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_lines_per_file([])
-        self.assertEqual(result, 0)
-
-    def test_average_lines_per_file(self):
-        self.create_temp_py_file("a = 1\nb = 2\nc = 3")
-        self.create_temp_py_file("x = 4\ny = 5\nz = 6\nw = 7\nv = 8")
-        
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_lines_per_file(self.py_files)
-        self.assertEqual(result, (3 + 5) / 2)
-
-    def test_average_lines_per_method_no_methods(self):
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_lines_per_method([])
-        self.assertEqual(result, 0)
-
-    def test_average_lines_per_method(self):
-        code = """
+def test_average_lines_per_method(metrics):
+    code = """
 def method1():
     a = 1
     b = 2
@@ -57,18 +44,18 @@ def method1():
 def method2():
     x = 4
 """
-        tree = self.parse_code(code)
-        self.parsed_py_files.append(tree)
-        
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_lines_per_method(self.parsed_py_files)
-        self.assertEqual(result, (4 + 2) / 2)
+    tree = ast.parse(code)
+    parsed_files = [tree]
+    
+    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_method(parsed_files)
+    assert result == (4 + 2) / 2
 
-    def test_average_methods_per_class_no_classes(self):
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_methods_per_class([])
-        self.assertEqual(result, 0)
+def test_average_methods_per_class_no_classes(metrics):
+    result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class([])
+    assert result == 0
 
-    def test_average_methods_per_class(self):
-        code = """
+def test_average_methods_per_class(metrics):
+    code = """
 class ClassA:
     def m1(self): pass
     def m2(self): pass
@@ -78,26 +65,23 @@ class ClassB:
     def m4(self): pass
     def m5(self): pass
 """
-        tree = self.parse_code(code)
-        self.parsed_py_files.append(tree)
-        
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_methods_per_class(self.parsed_py_files)
-        self.assertEqual(result, (2 + 3) / 2)
+    tree = ast.parse(code)
+    parsed_files = [tree]
+    
+    result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
+    assert result == (2 + 3) / 2
 
-    def test_average_params_no_functions(self):
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function([])
-        self.assertEqual(result, 0)
+def test_average_params_no_functions(metrics):
+    result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function([])
+    assert result == 0
 
-    def test_average_params_per_method(self):
-        code = """
+def test_average_params_per_method(metrics):
+    code = """
 def func1(a, b): pass
 def func2(c, d, e, f): pass
 """
-        tree = self.parse_code(code)
-        self.parsed_py_files.append(tree)
-        
-        result = self.metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function(self.parsed_py_files)
-        self.assertEqual(result, (2 + 4) / 2)
-
-if __name__ == '__main__':
-    unittest.main()
+    tree = ast.parse(code)
+    parsed_files = [tree]
+    
+    result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function(parsed_files)
+    assert result == (2 + 4) / 2

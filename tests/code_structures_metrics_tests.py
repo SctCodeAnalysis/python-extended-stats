@@ -104,6 +104,16 @@ def func(): pass
         tree = parse_code(code)
         assert metrics._CodeStructuresMetrics__count_max_number_of_method_params([tree]) == 0
 
+    def test_max_params_no_params(self, metrics):
+        """
+        Test that a method has zero parameters.
+        """
+        code = """
+class A:
+    def method(): pass"""
+        tree = parse_code(code)
+        assert metrics._CodeStructuresMetrics__count_max_number_of_method_params([tree]) == 0
+
     def test_max_params(self, metrics):
         """
         Test finding the maximum number of parameters in functions and methods.

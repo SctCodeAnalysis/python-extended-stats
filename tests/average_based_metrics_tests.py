@@ -71,6 +71,23 @@ def test_average_methods_per_class_no_classes(metrics):
     result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class([])
     assert result == 0
 
+def test_average_methods_per_class_no_methods(metrics):
+    """
+    Test the calculation of the average number of methods per class - no methods
+    """
+    code = """
+class ClassA:
+    pass
+
+class ClassB:
+    pass
+"""
+    tree = ast.parse(code)
+    parsed_files = [tree]
+    
+    result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
+    assert result == 0
+
 def test_average_methods_per_class(metrics):
     """
     Test the calculation of the average number of methods per class.
@@ -96,6 +113,19 @@ def test_average_params_no_functions(metrics):
     Test that the average number of parameters per function/method is 0 when no functions are provided.
     """
     result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function([])
+    assert result == 0
+
+def test_average_params_per_method_no_params(metrics):
+    """
+    Test the calculation of the average number of parameters per function/method. - no params
+    """
+    code = """
+def func1(): pass
+"""
+    tree = ast.parse(code)
+    parsed_files = [tree]
+    
+    result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function(parsed_files)
     assert result == 0
 
 def test_average_params_per_method(metrics):

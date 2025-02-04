@@ -9,6 +9,12 @@ class MaintainabilityMetrics(ProjectMetrics):
     Class for maintainability metrics
     """
     def value(self, parsed_py_files: Dict) -> Dict[str, Any]:
+        """
+        Calculates all maintainability metrics and returns a dict filled with them
+
+        Returns:
+            Dict: dict of calculated dependency and coupling metrics
+        """
         result_metrics = {}
 
         result_metrics["Number of Deprecated Methods"] = self.__find_deprecated_methods(parsed_py_files)

@@ -10,6 +10,12 @@ class ProjectFileStructureMetrics(ProjectMetrics):
     Class for project file structure metrics
     """
     def value(self, all_files: List, repo_path: Path) -> Dict[str, Any]:
+        """
+        Calculates all project file structure metrics and returns a dict filled with them
+
+        Returns:
+            Dict: dict of calculated project file structure metrics
+        """
         result_metrics = {}
 
         result_metrics["Number of Files in the Project"] = len(all_files)

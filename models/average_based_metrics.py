@@ -9,6 +9,12 @@ class AverageBasedMetrics(ProjectMetrics):
     Class for average-based metrics
     """
     def value(self, parsed_py_files: Dict, py_files: List) -> Dict[str, Any]:
+        """
+        Calculates all average-based metrics and returns a dict filled with them
+
+        Returns:
+            Dict: dict of calculated average-based metrics
+        """
         result_metrics = {}
 
         result_metrics["Average Number of Lines per File"] = self.__count_average_number_of_lines_per_file(py_files)

@@ -9,6 +9,12 @@ class CodeStructuresMetrics(ProjectMetrics):
     Class for code structure metrics
     """
     def value(self, parsed_py_files: Dict) -> Dict[str, Any]:
+        """
+        Calculates all code ctructures metrics and returns a dict filled with them
+
+        Returns:
+            Dict: dict of calculated code structures metrics
+        """
         result_metrics = {}
 
         result_metrics["Number of Classes"] = self.__count_number_of_classes(parsed_py_files)

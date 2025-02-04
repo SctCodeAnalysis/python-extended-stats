@@ -9,6 +9,12 @@ class CBOMetric(ProjectMetrics):
     Class for coupling between objects metric
     """
     def value(self, parsed_py_files: Dict) -> Dict[str, Any]:
+        """
+        Calculates CBO metric and returns a dict filled with it
+
+        Returns:
+            Dict: dict of calculated CBO metric
+        """
         result_metrics = {}
 
         result_metrics["Coupling Between Objects"] = self.__count_coupling_between_objects(parsed_py_files)

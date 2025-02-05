@@ -1,12 +1,12 @@
 import click
 
-from models.ext_python_stat import ExtPythonStats
+from models.ext_python_stats import ExtPythonStats
 
 
 @click.command()
 @click.option('--path', '-p', required=True, help='Path to the repository.')
-@click.option('--xml_file_name', '-x', required=True, help='Name of the output XML file.')
-def main(path, xml_file_name):
+@click.option('--report_file', '-r', required=True, help='Name of the report file.', default="result_python_extended_stats.xml")
+def main(path, report_file):
     """
     Main function of the project. Using an inserted path to the repository and a resultant XML filename,
     calculates a set of metrics described in models/metrics.tex
@@ -18,7 +18,12 @@ def main(path, xml_file_name):
     Returns:
         None.
     """
-    pass
+    try:
+        stats = ExtPythonStats(path)
+        metrics_report_list = stats.report()
+        stats.print(report_file, metrics_report_list)
+    except Exception as e:
+        print(f"Got an exception here: {e}")
 
 
 if __name__ == "__main__":

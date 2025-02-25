@@ -36,8 +36,6 @@ class ExtPythonStats:
         self.path = repo_path
         self.repo_path = Path(self.path)
 
-        # self.all_files = list(self.repo_path.rglob("*"))
-
         self.all_files = [
             f for f in self.repo_path.rglob("*")
             if not any(part in VENV_DIRS for part in f.parts)

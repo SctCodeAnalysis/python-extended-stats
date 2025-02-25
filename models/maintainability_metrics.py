@@ -25,28 +25,14 @@ class MaintainabilityMetrics(ProjectMetrics):
 
         return result_metrics
     
-    def __find_deprecated_methods(self, parsed_py_files: Dict) -> List: # TODO: перепроверить работу метода !!!
+    def __find_deprecated_methods(self, parsed_py_files: Dict) -> List: # TODO: rewrite method !!!
         """
         Finds deprecated methods
 
         Returns:
             list: names methods that are deprecated
         """
-        deprecated_methods = []
-
-        for tree in parsed_py_files:
-            for node in ast.walk(tree):
-                if isinstance(node, ast.FunctionDef):
-                    if any(isinstance(decorator, ast.Name) and decorator.id == 'deprecated' for decorator in node.decorator_list):
-                        deprecated_methods.append(node.name)
-
-                if isinstance(node, ast.ClassDef):
-                    for subnode in node.body:
-                        if isinstance(subnode, ast.FunctionDef):
-                            if any(isinstance(decorator, ast.Name) and decorator.id == 'deprecated' for decorator in subnode.decorator_list):
-                                deprecated_methods.append(f"{node.name}.{subnode.name}")
-
-        return deprecated_methods
+        pass
     
     def __count_number_of_functions_or_methods_without_docstrings(self, parsed_py_files: Dict) -> int:
         """

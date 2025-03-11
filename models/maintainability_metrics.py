@@ -8,7 +8,7 @@ class MaintainabilityMetrics(ProjectMetrics):
     """
     Class for maintainability metrics
     """
-    def value(self, parsed_py_files: Dict) -> Dict[str, Any]:
+    def value(self, parsed_py_files: List) -> Dict[str, Any]:
         """
         Calculates all maintainability metrics and returns a dict filled with them
 
@@ -25,7 +25,7 @@ class MaintainabilityMetrics(ProjectMetrics):
 
         return result_metrics
     
-    def __find_deprecated_methods(self, parsed_py_files: Dict) -> List: # TODO: rewrite method !!!
+    def __find_deprecated_methods(self, parsed_py_files: List) -> List: # TODO: rewrite method !!!
         """
         Finds deprecated methods
 
@@ -34,7 +34,7 @@ class MaintainabilityMetrics(ProjectMetrics):
         """
         pass
     
-    def __count_number_of_functions_or_methods_without_docstrings(self, parsed_py_files: Dict) -> int:
+    def __count_number_of_functions_or_methods_without_docstrings(self, parsed_py_files: List) -> int:
         """
         Walks all methods and functions and counts the number of those that have no docstring
 
@@ -50,7 +50,7 @@ class MaintainabilityMetrics(ProjectMetrics):
                         counter += 1
         return counter
     
-    def __count_number_of_functions_or_methods_without_typing(self, parsed_py_files: Dict) -> int:
+    def __count_number_of_functions_or_methods_without_typing(self, parsed_py_files: List) -> int:
         """
         Walks all methods and functions and counts those that have no typing used in them
         
@@ -86,7 +86,7 @@ class MaintainabilityMetrics(ProjectMetrics):
 
         return count
     
-    def __count_number_of_context_managers(self, parsed_py_files: Dict) -> int:
+    def __count_number_of_context_managers(self, parsed_py_files: List) -> int:
         """
         Calculates a number of context managers in python files
 
@@ -103,7 +103,7 @@ class MaintainabilityMetrics(ProjectMetrics):
 
         return context_manager_count
     
-    def __count_number_of_handled_exceptions(self, parsed_py_files: Dict) -> int: 
+    def __count_number_of_handled_exceptions(self, parsed_py_files: List) -> int: 
         """
         Walking through all py files, counts the number of handled exceptions
 
@@ -124,3 +124,55 @@ class MaintainabilityMetrics(ProjectMetrics):
                                 handled_exceptions.add(ast.unparse(handler.type).strip())
 
         return len(handled_exceptions)
+    
+    def __calculate_clone_coverage(self, parsed_py_files: List[ast.AST]) -> float: #TODO: reqrite methos and cope with tests
+        """
+        Walking through all py files, calculates clone coverage in percents
+        Returns:
+            float: Percentage of cloned code
+        """
+        class Normalizer(ast.NodeTransformer):
+            def visit_FunctionDef(self, node):
+                node.name = 'func'
+                self.generic_visit(node)
+                return node
+
+            def visit_ClassDef(self, node):
+                node.name = 'cls'
+                self.generic_visit(node)
+                return node
+
+            def visit_Name(self, node):
+                if isinstance(node.ctx, ast.Store):
+                    node.id = 'var'
+                else:
+                    node.id = 'loaded_var'
+                return node
+
+            def visit_arg(self, node):
+                node.arg = 'arg'
+                return node
+
+        normalized_hashes = []
+
+        for ast_tree in parsed_py_files:
+            for node in ast.walk(ast_tree):
+                if isinstance(node, (ast.FunctionDef, ast.ClassDef)):
+                    try:
+                        node_dump = ast.dump(node)
+                        temp_ast = ast.parse(node_dump, mode='exec')
+                        temp_node = temp_ast.body[0]
+                        normalized_node = Normalizer().visit(temp_node)
+                        ast.fix_missing_locations(normalized_node)
+                        normalized_dump = ast.dump(normalized_node, annotate_fields=False)
+                        normalized_hashes.append(hash(normalized_dump))
+                    except:
+                        continue
+
+        total_nodes = len(normalized_hashes)
+        if total_nodes == 0:
+            return 0.0
+
+        unique_hashes = len(set(normalized_hashes))
+        cloned_percent = ((total_nodes - unique_hashes) / total_nodes) * 100
+        return cloned_percent

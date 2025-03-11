@@ -8,12 +8,12 @@ class CBOMetric(ProjectMetrics):
     """
     Class for coupling between objects metric
     """
-    def value(self, parsed_py_files: Dict) -> Dict[str, Any]:
+    def value(self, parsed_py_files: List) -> Dict[str, Any]:
         """
-        Calculates CBO metric and returns a dict filled with it
+        Calculates CBO metric and returns a list filled with it
 
         Returns:
-            Dict: dict of calculated CBO metric
+            List: list of calculated CBO metric
         """
         result_metrics = {}
 
@@ -21,7 +21,7 @@ class CBOMetric(ProjectMetrics):
 
         return result_metrics
     
-    def __count_coupling_between_objects(self, parsed_py_files: Dict) -> Dict:
+    def __count_coupling_between_objects(self, parsed_py_files: List) -> Dict:
         """
         Counts CBO metric, ignoring method calls via object attributes.
         """
@@ -58,7 +58,6 @@ class CBOMetric(ProjectMetrics):
                                 func = sub_node.func
 
                                 if isinstance(func, ast.Name):
-                                    # if func.id in module_classes and func.id not in builtins:
                                     if func.id not in builtins:
                                         call_names.add(func.id)
 

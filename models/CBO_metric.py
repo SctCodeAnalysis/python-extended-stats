@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Set
 import ast
 
 from models.project_metrics import ProjectMetrics
@@ -10,70 +10,87 @@ class CBOMetric(ProjectMetrics):
     """
     def value(self, parsed_py_files: List) -> Dict[str, Any]:
         """
-        Calculates CBO metric and returns a list filled with it
-
-        Returns:
-            List: list of calculated CBO metric
+        CBO metric preparing method that converts calculations into a presentative response dict
         """
-        result_metrics = {}
-
-        result_metrics["Coupling Between Objects"] = self.__count_coupling_between_objects(parsed_py_files)
-
-        return result_metrics
+        return {
+            "Coupling Between Objects": self.__count_coupling_between_objects(parsed_py_files)
+        }
     
     def __count_coupling_between_objects(self, parsed_py_files: List) -> Dict:
         """
-        Counts CBO metric, ignoring method calls via object attributes.
+        Calculates CBO metric for the listed py files
         """
         result = {}
-        builtins = {'int', 'str', 'list', 'dict', 'bool', 'float'}
-
+        builtins = self.__get_builtin_types()
+        
         for module in parsed_py_files:
-            module_classes = set()
-            for node in ast.walk(module):
-                if isinstance(node, ast.ClassDef):
-                    module_classes.add(node.name)
-
+            module_classes = self.__get_module_classes(module)
             for node in ast.walk(module):
                 if isinstance(node, ast.ClassDef):
                     class_name = node.name
-                    bases_names = set()
-
-                    for base in node.bases:
-                        current = base
-                        parts = []
-                        while isinstance(current, ast.Attribute):
-                            parts.append(current.attr)
-                            current = current.value
-                        if isinstance(current, ast.Name):
-                            parts.append(current.id)
-                            base_class = '.'.join(reversed(parts))
-                            if base_class not in builtins:
-                                bases_names.add(base_class)
-
-                    call_names = set()
-                    for stmt in node.body:
-                        for sub_node in ast.walk(stmt):
-                            if isinstance(sub_node, ast.Call):
-                                func = sub_node.func
-
-                                if isinstance(func, ast.Name):
-                                    if func.id not in builtins:
-                                        call_names.add(func.id)
-
-                                elif isinstance(func, ast.Attribute):
-                                    current = func
-                                    parts = []
-                                    while isinstance(current, ast.Attribute):
-                                        parts.append(current.attr)
-                                        current = current.value
-                                    if isinstance(current, ast.Name):
-                                        parts.append(current.id)
-                                        full_name = '.'.join(reversed(parts))
-                                        if full_name in module_classes and full_name not in builtins:
-                                            call_names.add(full_name)
-
-                    all_used = bases_names.union(call_names)
-                    result[class_name] = len(all_used)
-
+                    bases = self.__get_base_classes(node.bases, module_classes, builtins)
+                    calls = self.__get_method_calls(node.body, module_classes, builtins)
+                    result[class_name] = len(bases.union(calls))
+        
         return result
+
+    def __get_builtin_types(self) -> Set[str]:
+        """
+        Returns a list of builtin types
+        """
+        return {'int', 'str', 'list', 'dict', 'bool', 'float'}
+
+    def __get_module_classes(self, module: ast.Module) -> Set[str]:
+        """
+        List all ClassNames across a presented module
+        """
+        return {n.name for n in ast.walk(module) if isinstance(n, ast.ClassDef)}
+
+    def __get_base_classes(self, bases: List[ast.expr], module_classes: Set[str], builtins: Set[str]) -> Set[str]:
+        """
+        Collect base classes from the list
+        """
+        base_classes = set()
+        
+        for base in bases:
+            if (class_name := self.__extract_entity_name(base)) \
+                and class_name not in builtins:
+                base_classes.add(class_name)
+        
+        return base_classes
+
+    def __get_method_calls(self, body: List[ast.stmt], module_classes: Set[str], builtins: Set[str]) -> Set[str]:
+        """
+        Collect calls
+        """
+        called_classes = set()
+        
+        for stmt in body:
+            for sub_node in ast.walk(stmt):
+                if isinstance(sub_node, ast.Call) \
+                    and (class_name := self.__extract_entity_name(sub_node.func, module_classes)):
+                    called_classes.add(class_name)
+        
+        return called_classes
+
+    def __extract_entity_name(self, node: ast.expr, module_classes: Set[str] = None) -> str:
+        """
+        Get name of a presented node
+        """
+        if isinstance(node, ast.Name):
+            return node.id
+        
+        if isinstance(node, ast.Attribute):
+            parts = []
+            current = node
+            while isinstance(current, ast.Attribute):
+                parts.append(current.attr)
+                current = current.value
+            
+            if isinstance(current, ast.Name):
+                parts.append(current.id)
+                full_name = '.'.join(reversed(parts))
+                if module_classes is None or full_name in module_classes:
+                    return full_name
+        
+        return None

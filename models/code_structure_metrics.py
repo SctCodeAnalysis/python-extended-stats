@@ -1,4 +1,4 @@
-from typing import Dict, Any
+from typing import Dict, Any, List
 import ast
 
 from models.project_metrics import ProjectMetrics
@@ -8,7 +8,7 @@ class CodeStructuresMetrics(ProjectMetrics):
     """
     Class for code structure metrics
     """
-    def value(self, parsed_py_files: Dict) -> Dict[str, Any]:
+    def value(self, parsed_py_files: List) -> Dict[str, Any]:
         """
         Calculates all code ctructures metrics and returns a dict filled with them
 

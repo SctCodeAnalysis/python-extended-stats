@@ -8,7 +8,7 @@ class DependencyAndCouplingMetrics(ProjectMetrics):
     """
     Class for dependency and coupling metrics
     """
-    def value(self, parsed_py_files: Dict, all_files: List) -> Dict[str, Any]:
+    def value(self, parsed_py_files: List, all_files: List) -> Dict[str, Any]:
         """
         Calculates all dependency and coupling metrics and returns a dict filled with them
 
@@ -22,7 +22,7 @@ class DependencyAndCouplingMetrics(ProjectMetrics):
 
         return result_metrics
     
-    def __count_number_of_libs(self, parsed_py_files: Dict) -> int:
+    def __count_number_of_libs(self, parsed_py_files: List) -> int:
         """
         Counts the number of unique libraries imported in the parsed Python files.
 

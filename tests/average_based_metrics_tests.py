@@ -6,9 +6,8 @@ sys.path.append(str(PROJECT_ROOT))
 
 import pytest
 import ast
-from typing import List
-
 from models.average_based_metrics import AverageBasedMetrics
+
 
 @pytest.fixture
 def metrics():
@@ -17,39 +16,26 @@ def metrics():
     """
     return AverageBasedMetrics()
 
-def test_average_lines_per_file_no_files(metrics):
-    """
-    Test that the average number of lines per file is 0 when no files are provided.
-    """
-    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_file([])
-    assert result == 0
+@pytest.fixture
+def empty_file_list():
+    """Fixture for an empty list of files."""
+    return []
 
-def test_average_lines_per_file(metrics, tmp_path):
-    """
-    Test the calculation of the average number of lines per file with multiple files.
-    """
+@pytest.fixture
+def multiple_files(tmp_path):
+    """Fixture for multiple files with varying line counts."""
     file1 = tmp_path / "file1.py"
     file1.write_text("a = 1\nb = 2\nc = 3")
     
     file2 = tmp_path / "file2.py"
     file2.write_text("x = 4\ny = 5\nz = 6\nw = 7\nv = 8")
     
-    files = [file1, file2]
-    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_file(files)
-    assert result == (3 + 5) / 2
+    return [file1, file2]
 
-def test_average_lines_per_method_no_methods(metrics):
-    """
-    Test that the average number of lines per method is 0 when no methods are provided.
-    """
-    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_method([])
-    assert result == 0
-
-def test_average_lines_per_method(metrics):
-    """
-    Test the calculation of the average number of lines per method.
-    """
-    code = """
+@pytest.fixture
+def methods_code():
+    """Fixture for code containing multiple methods."""
+    return """
 def method1():
     a = 1
     b = 2
@@ -58,41 +44,22 @@ def method1():
 def method2():
     x = 4
 """
-    tree = ast.parse(code)
-    parsed_files = [tree]
-    
-    result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_method(parsed_files)
-    assert result == (4 + 2) / 2
 
-def test_average_methods_per_class_no_classes(metrics):
-    """
-    Test that the average number of methods per class is 0 when no classes are provided.
-    """
-    result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class([])
-    assert result == 0
-
-def test_average_methods_per_class_no_methods(metrics):
-    """
-    Test the calculation of the average number of methods per class - no methods
-    """
-    code = """
+@pytest.fixture
+def classes_code_no_methods():
+    """Fixture for code containing classes with no methods."""
+    return """
 class ClassA:
     pass
 
 class ClassB:
     pass
 """
-    tree = ast.parse(code)
-    parsed_files = [tree]
-    
-    result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
-    assert result == 0
 
-def test_average_methods_per_class(metrics):
-    """
-    Test the calculation of the average number of methods per class.
-    """
-    code = """
+@pytest.fixture
+def classes_code_with_methods():
+    """Fixture for code containing classes with methods."""
+    return """
 class ClassA:
     def m1(self): pass
     def m2(self): pass
@@ -102,43 +69,108 @@ class ClassB:
     def m4(self): pass
     def m5(self): pass
 """
-    tree = ast.parse(code)
-    parsed_files = [tree]
-    
-    result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
-    assert result == (2 + 3) / 2
 
-def test_average_params_no_functions(metrics):
-    """
-    Test that the average number of parameters per function/method is 0 when no functions are provided.
-    """
-    result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function([])
-    assert result == 0
-
-def test_average_params_per_method_no_params(metrics):
-    """
-    Test the calculation of the average number of parameters per function/method. - no params
-    """
-    code = """
+@pytest.fixture
+def functions_code_no_params():
+    """Fixture for code containing a function with no parameters."""
+    return """
 def func1(): pass
 """
-    tree = ast.parse(code)
-    parsed_files = [tree]
-    
-    result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function(parsed_files)
-    assert result == 0
 
-def test_average_params_per_method(metrics):
-    """
-    Test the calculation of the average number of parameters per function/method.
-    """
-    code = """
+@pytest.fixture
+def functions_code_with_params():
+    """Fixture for code containing functions with parameters."""
+    return """
 def func1(a, b): pass
 
 def func2(c, d, e, f): pass
 """
-    tree = ast.parse(code)
-    parsed_files = [tree]
-    
-    result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function(parsed_files)
-    assert result == (2 + 4) / 2
+
+class TestAverageBasedMetrics:
+    """
+    Tests for average-based metrics
+    """
+    def test_average_lines_per_file_no_files(self, metrics, empty_file_list):
+        """
+        Test that the average number of lines per file is 0 when no files are provided.
+        """
+        result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_file(empty_file_list)
+        assert result == 0
+
+    def test_average_lines_per_file(self, metrics, multiple_files):
+        """
+        Test the calculation of the average number of lines per file with multiple files.
+        """
+        result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_file(multiple_files)
+        assert result == (3 + 5) / 2
+
+    def test_average_lines_per_method_no_methods(self, metrics):
+        """
+        Test that the average number of lines per method is 0 when no methods are provided.
+        """
+        result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_method([])
+        assert result == 0
+
+    def test_average_lines_per_method(self, metrics, methods_code):
+        """
+        Test the calculation of the average number of lines per method.
+        """
+        tree = ast.parse(methods_code)
+        parsed_files = [tree]
+        
+        result = metrics._AverageBasedMetrics__count_average_number_of_lines_per_method(parsed_files)
+        assert result == (4 + 2) / 2
+
+    def test_average_methods_per_class_no_classes(self, metrics):
+        """
+        Test that the average number of methods per class is 0 when no classes are provided.
+        """
+        result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class([])
+        assert result == 0
+
+    def test_average_methods_per_class_no_methods(self, metrics, classes_code_no_methods):
+        """
+        Test the calculation of the average number of methods per class - no methods.
+        """
+        tree = ast.parse(classes_code_no_methods)
+        parsed_files = [tree]
+        
+        result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
+        assert result == 0
+
+    def test_average_methods_per_class(self, metrics, classes_code_with_methods):
+        """
+        Test the calculation of the average number of methods per class.
+        """
+        tree = ast.parse(classes_code_with_methods)
+        parsed_files = [tree]
+        
+        result = metrics._AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
+        assert result == (2 + 3) / 2
+
+    def test_average_params_no_functions(self, metrics):
+       """
+       Test that the average number of parameters per function/method is 0 when no functions are provided.
+       """
+       result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function([])
+       assert result == 0
+
+    def test_average_params_per_method_no_params(self, metrics, functions_code_no_params):
+       """
+       Test the calculation of the average number of parameters per function/method - no params.
+       """
+       tree = ast.parse(functions_code_no_params)
+       parsed_files = [tree]
+       
+       result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function(parsed_files)
+       assert result == 0
+
+    def test_average_params_per_method(self, metrics, functions_code_with_params):
+       """
+       Test the calculation of the average number of parameters per function/method.
+       """
+       tree = ast.parse(functions_code_with_params)
+       parsed_files = [tree]
+       
+       result = metrics._AverageBasedMetrics__count_average_number_of_params_per_method_of_function(parsed_files)
+       assert result == (2 + 4) / 2

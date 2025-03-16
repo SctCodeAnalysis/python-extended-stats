@@ -13,6 +13,10 @@ from models.CBO_metric import CBOMetric
 from models.project_file_structure_metrics import ProjectFileStructureMetrics
 from models.average_based_metrics import AverageBasedMetrics
 from models.maintainability_metrics import MaintainabilityMetrics
+from models.class_metrics import ClassMetrics
+from models.readability_and_formatting_metrics import ReadabilityAndFormattingMetrics
+from models.code_complexity_and_quality_metrics import CodeComplexityAndQualityMetrics
+
 from docs.metrics_list import metrics_list
 from config import VENV_DIRS
 
@@ -35,8 +39,6 @@ class ExtPythonStats:
         """
         self.path = repo_path
         self.repo_path = Path(self.path)
-
-        # self.all_files = list(self.repo_path.rglob("*"))
 
         self.all_files = [
             f for f in self.repo_path.rglob("*")
@@ -117,5 +119,7 @@ class ExtPythonStats:
         result_metrics_dict = {**result_metrics_dict, **ProjectFileStructureMetrics().value(self.all_files, self.repo_path)}
         result_metrics_dict = {**result_metrics_dict, **AverageBasedMetrics().value(self.parsed_py_files, self.py_files)}
         result_metrics_dict = {**result_metrics_dict, **MaintainabilityMetrics().value(self.parsed_py_files)}
-
+        result_metrics_dict = {**result_metrics_dict, **ClassMetrics().value(self.parsed_py_files)}
+        result_metrics_dict = {**result_metrics_dict, **ReadabilityAndFormattingMetrics().value(self.parsed_py_files, self.py_files)}
+        result_metrics_dict = {**result_metrics_dict, **CodeComplexityAndQualityMetrics().value(self.parsed_py_files, self.py_files)}
         return result_metrics_dict

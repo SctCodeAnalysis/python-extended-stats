@@ -8,12 +8,12 @@ class AverageBasedMetrics(ProjectMetrics):
     """
     Class for average-based metrics
     """
-    def value(self, parsed_py_files: Dict, py_files: List) -> Dict[str, Any]:
+    def value(self, parsed_py_files: List, py_files: List) -> Dict[str, Any]:
         """
-        Calculates all average-based metrics and returns a dict filled with them
+        Calculates all average-based metrics and returns a list filled with them
 
         Returns:
-            Dict: dict of calculated average-based metrics
+            List: list of calculated average-based metrics
         """
         result_metrics = {}
 
@@ -43,7 +43,7 @@ class AverageBasedMetrics(ProjectMetrics):
 
         return total_lines / file_count
     
-    def __count_average_number_of_lines_per_method(self, parsed_py_files: Dict) -> float:
+    def __count_average_number_of_lines_per_method(self, parsed_py_files: List) -> float:
         """
         Calculates average number of lines per python method
 
@@ -64,7 +64,7 @@ class AverageBasedMetrics(ProjectMetrics):
 
         return total_lines / total_methods if total_methods > 0 else 0
     
-    def __count_average_number_of_methods_per_class(self, parsed_py_files: Dict) -> float:
+    def __count_average_number_of_methods_per_class(self, parsed_py_files: List) -> float:
         """
         Calculates average number of methods per python class
 
@@ -83,7 +83,7 @@ class AverageBasedMetrics(ProjectMetrics):
 
         return total_methods / total_classes if total_classes > 0 else 0
     
-    def __count_average_number_of_params_per_method_of_function(self, parsed_py_files: Dict) -> float:
+    def __count_average_number_of_params_per_method_of_function(self, parsed_py_files: List) -> float:
         """
         Calculates average number of parameters per python method of function
 

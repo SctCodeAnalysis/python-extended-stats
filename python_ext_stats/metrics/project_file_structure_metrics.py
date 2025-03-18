@@ -1,8 +1,11 @@
+"""
+This module provides project file structure metrics
+"""
+
 from typing import Dict, Any, List
-import ast
 from pathlib import Path
 
-from models.project_metrics import ProjectMetrics
+from python_ext_stats.metrics.project_metrics import ProjectMetrics
 
 
 class ProjectFileStructureMetrics(ProjectMetrics):
@@ -19,10 +22,22 @@ class ProjectFileStructureMetrics(ProjectMetrics):
         result_metrics = {}
 
         result_metrics["Number of Files in the Project"] = len(all_files)
-        result_metrics["Depth of the Project File System Tree"] = self.__get_depth_of_the_project_file_system_tree(all_files, repo_path)
+        result_metrics["Depth of the Project File System Tree"] = \
+            self.__get_depth_of_the_project_file_system_tree(all_files, repo_path)
 
         return result_metrics
-    
+
+    def available_metrics(self) -> List[str]:
+        """
+        Method to present a list of avaliable Project File Structure Metrics
+
+        Returns:
+            List: a list of strings as metrics' names
+        """
+        return ["Number of Files in the Project",
+                "Depth of the Project File System Tree"
+                ]
+
     def __get_depth_of_the_project_file_system_tree(self, all_files: List, repo_path: Path) -> int:
         """
         Calculates depth of the repository filesystem tree

@@ -1,14 +1,19 @@
+"""
+This module is the main script to activate the python-ext-stats
+"""
 import click
 
-from models.ext_python_stats import ExtPythonStats
+from python_ext_stats.ext_python_stats import ExtPythonStats
 
 
 @click.command()
 @click.option('--path', '-p', required=True, help='Path to the repository.')
-@click.option('--report_file', '-r', required=True, help='Name of the report file.', default="result_python_extended_stats.xml")
-def main(path, report_file):
+@click.option('--report_file', '-r', required=True, help='Name of the report file.',
+               default="result_python_extended_stats.xml")
+def main(path="", report_file=""):
     """
-    Main function of the project. Using an inserted path to the repository and a resultant XML filename,
+    Main function of the project. Using an inserted path to the repository
+    and a resultant XML filename,
     calculates a set of metrics described in models/metrics.tex
 
     Args:

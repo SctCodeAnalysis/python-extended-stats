@@ -1,9 +1,13 @@
+"""
+This module privedes specific code complexity and quality netrics
+"""
+
 from typing import Dict, Any, List, Set
 import ast
 from radon.metrics import h_visit
 import vulture
 
-from models.project_metrics import ProjectMetrics
+from python_ext_stats.metrics.project_metrics import ProjectMetrics
 
 
 class CodeComplexityAndQualityMetrics(ProjectMetrics):
@@ -25,7 +29,20 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
         result_metrics["Dead code: unused objects"] = self.__find_dead_code(py_files)
 
         return result_metrics
-    
+
+    def available_metrics(self) -> List[str]:
+        """
+        Method to present a list of avaliable Code Complexity And Quality Metrics
+
+        Returns:
+            List: a list of strings as metrics' names
+        """
+        return ["Cyclomatic Complexity",
+                "Halstead Complexity",
+                "LCOM",
+                "Dead code: unused objects"
+                ]
+
     def __calculate_cyclomatic_complexity(self, py_files: List[str]) -> Dict[str, Dict[str, int]]:
         """
         Calculates cyclomatic complexity for each func in a Python file in the provided list.
@@ -35,7 +52,7 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                                       dictionaries of {function_name: complexity}
         """
         results = {}
-        
+
         for file_path in py_files:
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
@@ -49,7 +66,7 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                 continue
 
             file_complexities = {}
-            
+
             for node in ast.walk(tree):
                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                     visitor = CyclomaticComplexityVisitor()
@@ -57,9 +74,9 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                     file_complexities[node.name] = visitor.complexity
 
             results[file_path] = file_complexities
-            
+
         return results
-    
+
     def __calculate_halstead_complexity(self, py_files: List) -> List[Dict[str, int]]:
         """
         Calculates Halstead complexity for each py file in the repository.
@@ -68,11 +85,11 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
             List[Dict]: List of dictionaries with Halstead metrics for each file.
         """
         halstead_metrics = {}
-        
+
         for py_file in py_files:
             with open(py_file, "r", encoding="utf-8") as file:
                 code = file.read()
-            
+
             try:
                 analysis = h_visit(code)
                 metrics = {
@@ -108,9 +125,15 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
             Class redefined for attributes collection
             """
             def __init__(self):
+                """
+                subclass init
+                """
                 self.attributes: Set[str] = set()
 
             def visit_Attribute(self, node: ast.Attribute) -> None:
+                """
+                method to specify behaviour while visiting an Attribute
+                """
                 if isinstance(node.value, ast.Name) and node.value.id == "self":
                     self.attributes.add(node.attr)
                 self.generic_visit(node)
@@ -132,12 +155,12 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                                 "name": method_name,
                                 "attributes": visitor.attributes
                             })
-                    
+
                     lcom = 0
                     if len(methods) > 1:
                         p = 0
                         q = 0
-                        
+
                         for i in range(len(methods)):
                             for j in range(i + 1, len(methods)):
                                 attrs_i = methods[i]["attributes"]
@@ -147,13 +170,13 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                                     p += 1
                                 else:
                                     q += 1
-                        
+
                         lcom = p - q if p > q else 0
 
                     all_attributes = set()
                     for method in methods:
                         all_attributes.update(method["attributes"])
-                    
+
                     lcom_results[class_name] = {
                         "lcom": lcom,
                         "methods": len(methods),
@@ -174,56 +197,98 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
         v.scavenge(py_files)
 
         return v.get_unused_code()
-    
+
 
 class CyclomaticComplexityVisitor(ast.NodeVisitor):
+    """
+    Specific class that describes behavour in a certain node
+    """
     def __init__(self):
+        """
+        class init
+        """
         self.complexity = 1
 
     def visit_If(self, node):
+        """
+        method to visit IF
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_For(self, node):
+        """
+        method to visit FOR
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_AsyncFor(self, node):
+        """
+        method to visit ASYNCFOR
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_While(self, node):
+        """
+        method to visit WHILE
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_With(self, node):
+        """
+        method to visit WITH
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_AsyncWith(self, node):
+        """
+        method to visit AsyncWith
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_ExceptHandler(self, node):
+        """
+        method to visit EXCEPTHANDLER
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_BoolOp(self, node):
+        """
+        method to visit BOOL OP.
+        """
         self.complexity += len(node.values) - 1
         self.generic_visit(node)
 
     def visit_IfExp(self, node):
+        """
+        method to visit IFExp
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_comprehension(self, node):
+        """
+        method to visit comprehension
+        """
         self.complexity += len(node.ifs)
         self.generic_visit(node)
 
     def visit_Raise(self, node):
+        """
+        method to visit RAISE
+        """
         self.complexity += 1
         self.generic_visit(node)
 
     def visit_Assert(self, node):
+        """
+        method to visit ASSERT
+        """
         self.complexity += 1
         self.generic_visit(node)

@@ -1,9 +1,14 @@
-import pytest
+"""
+This module provides code structures metrics tests
+"""
+
+
 import ast
 import sys
 from pathlib import Path
+import pytest
 
-from models.code_structure_metrics import CodeStructuresMetrics
+from python_ext_stats.metrics.code_structure_metrics import CodeStructuresMetrics
 
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.append(str(PROJECT_ROOT))
@@ -143,12 +148,14 @@ class TestCodeStructureMetrics:
     def test_count_static_methods_empty(self, metrics, function_code):
         """Test that functions outside of a class are not counted as static methods."""
         tree = parse_code(function_code)
-        assert metrics._CodeStructuresMetrics__count_number_of_static_methods_in_classes([tree]) == 0
+        assert metrics._CodeStructuresMetrics__count_number_of_static_methods_in_classes\
+            ([tree]) == 0
 
     def test_count_static_methods(self, metrics, static_methods_code):
         """Test counting static and class methods inside a class."""
         tree = parse_code(static_methods_code)
-        assert metrics._CodeStructuresMetrics__count_number_of_static_methods_in_classes([tree]) == 2
+        assert metrics._CodeStructuresMetrics__count_number_of_static_methods_in_classes\
+            ([tree]) == 2
 
     def test_max_params_empty(self, metrics, empty_code):
         """Test that an empty code string has zero method parameters."""
@@ -184,22 +191,22 @@ class A:
         assert metrics._CodeStructuresMetrics__count_number_of_decorators([tree]) == 0
 
     def test_count_decorators(self, metrics, decorators_code):
-       """ 
-       Test counting decorators in both class and function definitions. 
-       """ 
-       tree = parse_code(decorators_code) 
-       assert metrics._CodeStructuresMetrics__count_number_of_decorators([tree]) == 4 
+        """ 
+        Test counting decorators in both class and function definitions. 
+        """
+        tree = parse_code(decorators_code)
+        assert metrics._CodeStructuresMetrics__count_number_of_decorators([tree]) == 4
 
     def test_count_constants_empty(self, metrics, empty_code):
-       """ 
-       Test that variables without uppercase names are not counted as constants. 
-       """ 
-       tree = parse_code(empty_code) 
-       assert metrics._CodeStructuresMetrics__count_number_of_constants([tree]) == 0 
+        """ 
+        Test that variables without uppercase names are not counted as constants. 
+        """
+        tree = parse_code(empty_code)
+        assert metrics._CodeStructuresMetrics__count_number_of_constants([tree]) == 0
 
     def test_count_constants(self, metrics, constants_code):
-       """ 
-       Test counting constants (uppercase variable assignments) in the code. 
-       """ 
-       tree = parse_code(constants_code) 
-       assert metrics._CodeStructuresMetrics__count_number_of_constants([tree]) == 3 
+        """
+        Test counting constants (uppercase variable assignments) in the code.
+        """
+        tree = parse_code(constants_code)
+        assert metrics._CodeStructuresMetrics__count_number_of_constants([tree]) == 3

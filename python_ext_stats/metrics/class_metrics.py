@@ -1,7 +1,11 @@
+"""
+This module provides class metrics
+"""
+
 from typing import Dict, Any, List
 import ast
 
-from models.project_metrics import ProjectMetrics
+from python_ext_stats.metrics.project_metrics import ProjectMetrics
 
 
 class ClassMetrics(ProjectMetrics):
@@ -17,19 +21,36 @@ class ClassMetrics(ProjectMetrics):
         """
         result_metrics = {}
 
-        result_metrics["Method Hiding Factor"] = self.__calculate_method_hiding_factor(parsed_py_files)
-        result_metrics["Attribute Hiding Factor"] = self.__calculate_attribute_hiding_factor(parsed_py_files)
-        result_metrics["Method Inheritance Factor"] = self.__calculate_method_inheritance_factor(parsed_py_files)
-        result_metrics["Polymorphism Factor"] = self.__calculate_method_polymorphism_factor(parsed_py_files)
-        result_metrics["Depth Of Inheritance Tree"] = self.__calculate_depth_of_inheritance_tree(parsed_py_files)
+        result_metrics["Method Hiding Factor"] = \
+            self.__calculate_method_hiding_factor(parsed_py_files)
+        result_metrics["Attribute Hiding Factor"] = \
+            self.__calculate_attribute_hiding_factor(parsed_py_files)
+        result_metrics["Method Inheritance Factor"] = \
+            self.__calculate_method_inheritance_factor(parsed_py_files)
+        result_metrics["Polymorphism Factor"] = \
+            self.__calculate_method_polymorphism_factor(parsed_py_files)
+        result_metrics["Depth Of Inheritance Tree"] = \
+            self.__calculate_depth_of_inheritance_tree(parsed_py_files)
         # result_metrics["Response for a Class"]
-
         return result_metrics
-    
+
+    def available_metrics(self) -> List[str]:
+        """
+        Method to present a list of avaliable class metrics
+
+        Returns:
+            List: a list of strings as metrics' names
+        """
+        return ["Method Hiding Factor",
+                "Attribute Hiding Factor",
+                "Method Inheritance Factor",
+                "Depth Of Inheritance Tree"
+                ]
+
     def __calculate_method_hiding_factor(self, parsed_py_files: List) -> float:
         """
         Calculates the ratio of private methods to total methods from 0 to 1 as a float
-         
+
         Returns:
             float: calculated method-hiding factor
         """
@@ -55,7 +76,7 @@ class ClassMetrics(ProjectMetrics):
         Returns:
             float: calculated attribute-hiding factor
         """
-        
+
         private_attr_num = 0
         total_attr_num = 0
 
@@ -71,16 +92,18 @@ class ClassMetrics(ProjectMetrics):
                             total_attr_num += 1
 
                         elif isinstance(subnode, ast.AnnAssign):
-                            if isinstance(subnode.target, ast.Name) and subnode.target.id.startswith("_"):
+                            if isinstance(subnode.target, ast.Name) \
+                                and subnode.target.id.startswith("_"):
                                 private_attr_num += 1
 
                             total_attr_num += 1
 
         return private_attr_num / total_attr_num if total_attr_num else 0.0
-    
+
     def __calculate_method_inheritance_factor(self, parsed_py_files: List) -> Dict:
         """
-        Calculates the ratio of inherited methods to total methods from 0 to 1 as a float for each class
+        Calculates the ratio of inherited methods to total methods
+        from 0 to 1 as a float for each class
 
         Returns:
             Dict: calculated ratios of inherited methods for each class 
@@ -93,7 +116,6 @@ class ClassMetrics(ProjectMetrics):
                 if isinstance(node, ast.ClassDef):
                     inherited_methods_num = 0
                     all_methods = set()
-                    
                     base_names = []
                     for base in node.bases:
                         if isinstance(base, ast.Name):
@@ -113,21 +135,22 @@ class ClassMetrics(ProjectMetrics):
                                     all_methods.add(subnode.name)
 
                     result_inheritance[node.name] = (
-                        inherited_methods_num / len(all_methods) 
-                        if len(all_methods) > 0 
+                        inherited_methods_num / len(all_methods)
+                        if len(all_methods) > 0
                         else 0.0
                     )
 
         return result_inheritance
-    
+
     def __calculate_method_polymorphism_factor(self, parsed_py_files: List) -> Dict:
         """
-        Calculates the ratio of overriden methods to total methods from 0 to 1 as a float for each class
+        Calculates the ratio of overriden methods to total
+        methods from 0 to 1 as a float for each class
 
         Returns:
             Dict: calculated ratios of overriden methods for each class 
         """
-        
+
         result_polymorphism = {}
 
         for tree in parsed_py_files:
@@ -136,7 +159,7 @@ class ClassMetrics(ProjectMetrics):
                     overriden_methods_num = 0
                     all_methods = set()
                     init_methods = []
-                    
+
                     base_names = []
                     for base in node.bases:
                         if isinstance(base, ast.Name):
@@ -163,7 +186,7 @@ class ClassMetrics(ProjectMetrics):
                         result_polymorphism[node.name] = 0.0
 
         return result_polymorphism
-    
+
     def __calculate_depth_of_inheritance_tree(self, parsed_py_files: List) -> int:
         """
         Calculates the depth of the inheritance tree by analyzing class dependencies.
@@ -176,12 +199,11 @@ class ClassMetrics(ProjectMetrics):
             """Gets base class name."""
             if isinstance(base_node, ast.Name):
                 return base_node.id
-            elif isinstance(base_node, ast.Attribute):
+            if isinstance(base_node, ast.Attribute):
                 return base_node.attr
-            elif isinstance(base_node, ast.Call):
+            if isinstance(base_node, ast.Call):
                 return get_base_name(base_node.func)
-            else:
-                return "UnknownBase"
+            return "UnknownBase"
 
         def pseudo_dfs(temp_ver, visited, inheritance_depth, edges):
             """Calculates depth of inh. tree."""

@@ -1,12 +1,17 @@
+"""
+This module provides CBO metric tests
+"""
+
 import sys
 from pathlib import Path
+import ast
+import pytest
+
+from python_ext_stats.metrics.CBO_metric import CBOMetric
+
 
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.append(str(PROJECT_ROOT))
-
-import pytest
-import ast
-from models.CBO_metric import CBOMetric
 
 
 @pytest.fixture
@@ -72,7 +77,7 @@ class Child(Parent):
 
 class TestCBOMetric:
     """Test suite for CBOMetric functionality."""
-    
+
     def test_empty_class_cbo(self, cbometric: CBOMetric, empty_class_module: ast.Module):
         """
         Test CBO calculation for class without dependencies.

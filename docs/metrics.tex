@@ -8,13 +8,13 @@
 \section{Code Complexity and Quality Metrics}
 
 \begin{itemize}
-    \item \textbf{Cyclomatic Complexity}[Egor Bugaenko]: a metric measuring the number of paths in the code. 
+    \item \textbf{Cyclomatic Complexity}: a metric measuring the number of paths in the code. 
     \begin{itemize}
         \item Formula: \texttt{cyclomaticComplexity = 1 + number of branches}
         \item Tools: flake8
     \end{itemize}
-    \item \textbf{Halstead Complexity}[Egor Bugaenko]: a metric based on the computation of operands and operators in the code.
-    \item \textbf{LCOM (Lack of Cohesion in Methods)}[Egor Bugaenko]: measures the cohesion of methods in a class. LCOM calculates how well the methods of a class are related to each other in terms of shared attributes. The metric can be computed as:
+    \item \textbf{Halstead Complexity}: a metric based on the computation of operands and operators in the code.
+    \item \textbf{LCOM (Lack of Cohesion in Methods)}: measures the cohesion of methods in a class. LCOM calculates how well the methods of a class are related to each other in terms of shared attributes. The metric can be computed as:
     \begin{itemize}
         \item Formula: 
         \[
@@ -27,78 +27,78 @@
         \end{itemize}
         \item A high LCOM value indicates low cohesion, meaning methods in the class operate independently of each other. A low LCOM value suggests high cohesion, meaning methods are closely related and operate on the same attributes.
     \end{itemize}
-    \item \textbf{Dead code}[Egor Bugaenko]: the number of dead code lines.
+    \item \textbf{Dead code}: the number of dead code lines.
 \end{itemize}
 
 \section{Readability and Formatting Metrics}
 
 \begin{itemize}
-    \item \textbf{Duplication Percentage}[Egor Bugaenko]: \(\frac{\text{duplicated lines}}{\text{total number of lines}} \times 100\)
-    \item \textbf{Maximum Line Length}[Personal research]: the length of the longest line in the code.
-    \item \textbf{Lines of Code (LOC)}[Egor Bugaenko]: total number of lines in the project.
-    \item \textbf{Average Line Length}[Personal research]: the average length of a line of code in the project.
-    \item \textbf{Average Identifier Length}[Personal research]: the average length of variable, method, and class names.
-    \item \textbf{Number of \texttt{pass} keywords}[Personal research]: the number of \texttt{pass} statements in the project.
+    \item \textbf{Duplication Percentage}: \(\frac{\text{duplicated lines}}{\text{total number of lines}} \times 100\)
+    \item \textbf{Maximum Line Length}: the length of the longest line in the code.
+    \item \textbf{Lines of Code (LOC)}: total number of lines in the project.
+    \item \textbf{Average Line Length}: the average length of a line of code in the project.
+    \item \textbf{Average Identifier Length}: the average length of variable, method, and class names.
+    \item \textbf{Number of \texttt{pass} keywords}: the number of \texttt{pass} statements in the project.
 \end{itemize}
 
 \section{Class Metrics}
 
 \begin{itemize}
-    \item \textbf{Method Hiding Factor}[Egor Bugaenko]: the ratio of private methods to total methods.
-    \item \textbf{Attribute Hiding Factor}[Egor Bugaenko]: the ratio of private attributes to total attributes.
-    \item \textbf{Method Inheritance Factor}[Egor Bugaenko]: the ratio of inherited methods to total methods.
-    \item \textbf{Polymorphism Factor}[Egor Bugaenko]: the ratio of overridden methods to total methods in a class.
-    \item \textbf{Depth Of Inheritance Tree}[Egor Bugaenko]: the depth of the inheritance tree.
-    \item \textbf{Response for a Class}[Egor Bugaenko]: the number of functions and methods invoked during the complete operation of a class.
+    \item \textbf{Method Hiding Factor}: the ratio of private methods to total methods.
+    \item \textbf{Attribute Hiding Factor}: the ratio of private attributes to total attributes.
+    \item \textbf{Method Inheritance Factor}: the ratio of inherited methods to total methods.
+    \item \textbf{Polymorphism Factor}: the ratio of overridden methods to total methods in a class.
+    \item \textbf{Depth Of Inheritance Tree}: the depth of the inheritance tree.
+    \item \textbf{Response for a Class}: the number of functions and methods invoked during the complete operation of a class.
 \end{itemize}
 
 \section{Maintainability Metrics}
 
 \begin{itemize}
-    \item \textbf{Code Maintainability}[Egor Bugaenko]: a resulting metric of all measurements.
-    \item \textbf{Number of Methods Without Deprecation}[Personal research]: the number of methods without the \texttt{@deprecated} annotation.
-    \item \textbf{Number of Functions or Methods Without Docstrings}[Personal research]: the number of functions or methods without documentation.
+    \item \textbf{Code Maintainability}: a resulting metric of all measurements.
+    \item \textbf{Number of Methods Without Deprecation}: the number of methods without the \texttt{@deprecated} annotation.
+    \item \textbf{Number of Functions or Methods Without Docstrings}: the number of functions or methods without documentation.
     \item \textbf{Number of Functions or Methods Without Typing}[https://medium.com/@commbigo/python-code-complexity-metrics-e6c87646c1c2h]: the number of methods or functions without type annotations for arguments and return values.
-    \item \textbf{Number of Context Managers}[Personal research]: the number of \texttt{with} blocks used.
-    \item \textbf{Number of Handled Exceptions}[Personal research]: the number of exceptions handled in the code.
-    \item \textbf{Volatility Metric}[Egor Bugaenko]: dispersion of file changes \href{https://youtu.be/zN0gX9m6a2k?si=ACzi11hjNT9S82Qu&t=1956}{LINK}.
+    \item \textbf{Number of Context Managers}: the number of \texttt{with} blocks used.
+    \item \textbf{Number of Handled Exceptions}: the number of exceptions handled in the code.
+    \item \textbf{Volatility Metric}: dispersion of file changes \href{https://youtu.be/zN0gX9m6a2k?si=ACzi11hjNT9S82Qu&t=1956}{LINK}.
     \item \textbf{Clone Coverage}.
 \end{itemize}
 
 \section{Code Structure Metrics}
 
 \begin{itemize}
-    \item \textbf{Number of Classes}[Egor Bugaenko]: the total number of classes in the project.
-    \item \textbf{Number of Methods}[Egor Bugaenko]: the total number of methods in the project.
-    \item \textbf{Number of Static Methods}[Egor Bugaenko]: the number of static methods in the project.
-    \item \textbf{Maximum Number of Method Parameters}[Personal research]: the largest number of parameters passed to a method.
-    \item \textbf{Maximum Method Length}[Personal research]: the length of the longest method in the project.
-    \item \textbf{Number of Decorators}[Personal research]: the number of decorators used in the project.
-    \item \textbf{Number of Public Constants in File}[Personal research]: the number of constants that are not hidden in the environment or configuration.
+    \item \textbf{Number of Classes}: the total number of classes in the project.
+    \item \textbf{Number of Methods}: the total number of methods in the project.
+    \item \textbf{Number of Static Methods}: the number of static methods in the project.
+    \item \textbf{Maximum Number of Method Parameters}: the largest number of parameters passed to a method.
+    \item \textbf{Maximum Method Length}: the length of the longest method in the project.
+    \item \textbf{Number of Decorators}: the number of decorators used in the project.
+    \item \textbf{Number of Public Constants in File}: the number of constants that are not hidden in the environment or configuration.
 \end{itemize}
 
 \section{Dependency and Coupling Metrics}
 
 \begin{itemize}
-    \item \textbf{Number of Libraries}[Egor Bugaenko]: the number of libraries used in the project.
-    \item \textbf{Number of Extensions in the Project}[Personal research]: the number of file extensions used in the project.
-    \item \textbf{CBO (Coupling Between Objects)}[Egor Bugaenko]: measures the degree of coupling between objects.
+    \item \textbf{Number of Libraries}: the number of libraries used in the project.
+    \item \textbf{Number of Extensions in the Project}: the number of file extensions used in the project.
+    \item \textbf{CBO (Coupling Between Objects)}: measures the degree of coupling between objects.
 \end{itemize}
 
 \section{Project File Structure Metrics}
 
 \begin{itemize}
-    \item \textbf{Number of Files in the Project}[Personal research]: the total number of files in the project.
-    \item \textbf{Depth of the Project File System Tree}[Egor Bugaenko]: the depth of the directory and file nesting in the project.
+    \item \textbf{Number of Files in the Project}: the total number of files in the project.
+    \item \textbf{Depth of the Project File System Tree}: the depth of the directory and file nesting in the project.
 \end{itemize}
 
 \section{Average-based Metrics}
 
 \begin{itemize}
-    \item \textbf{Average Number of Lines per File}[Personal research]: the average number of lines in a file.
-    \item \textbf{Average Number of Lines per Method}[Maxim Petrov]: the average number of lines in a method.
-    \item \textbf{Average Number of Methods per Class}[Maxim Petrov]: the average number of methods in a class.
-    \item \textbf{Average Number of Parameters per Method or Function}[Maxim Petrov]: the average number of parameters in methods or functions.
+    \item \textbf{Average Number of Lines per File}: the average number of lines in a file.
+    \item \textbf{Average Number of Lines per Method}: the average number of lines in a method.
+    \item \textbf{Average Number of Methods per Class}: the average number of methods in a class.
+    \item \textbf{Average Number of Parameters per Method or Function}: the average number of parameters in methods or functions.
 \end{itemize}
 
 \end{document}

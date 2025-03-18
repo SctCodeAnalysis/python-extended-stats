@@ -1,9 +1,14 @@
-import pytest
+"""
+This module provides code complexity and quality metrics tests
+"""
+
 import ast
 from pathlib import Path
 from typing import List
+import pytest
 
-from models.code_complexity_and_quality_metrics import CodeComplexityAndQualityMetrics
+from python_ext_stats.metrics.code_complexity_and_quality_metrics\
+      import CodeComplexityAndQualityMetrics
 
 
 @pytest.fixture
@@ -92,7 +97,8 @@ class TestCodeComplexityAndQualityMetrics:
     Test suite for the CodeComplexityAndQualityMetrics class.
     """
 
-    def test_value_method(self, metrics: CodeComplexityAndQualityMetrics, parsed_py_files: List[ast.AST], temp_py_files: List[str]) -> None:
+    def test_value_method(self, metrics: CodeComplexityAndQualityMetrics, parsed_py_files:\
+                           List[ast.AST], temp_py_files: List[str]) -> None:
         """
         Tests the main 'value' method to ensure it returns the expected metrics keys.
         """
@@ -102,30 +108,37 @@ class TestCodeComplexityAndQualityMetrics:
         assert "LCOM" in result
         assert "Dead code: unused objects" in result
 
-    def test_cyclomatic_complexity(self, metrics: CodeComplexityAndQualityMetrics, temp_py_files: List[str]) -> None:
+    def test_cyclomatic_complexity(self, metrics: CodeComplexityAndQualityMetrics,\
+                                    temp_py_files: List[str]) -> None:
         """
         Tests the cyclomatic complexity calculation method.
         """
-        complexities = metrics._CodeComplexityAndQualityMetrics__calculate_cyclomatic_complexity(temp_py_files)
+        complexities = metrics.\
+            _CodeComplexityAndQualityMetrics__calculate_cyclomatic_complexity(temp_py_files)
         for file_path, data in complexities.items():
             for func_name, complexity in data.items():
-                assert complexity >= 1, f"Cyclomatic complexity of {func_name} in {file_path} should be >= 1"
+                assert complexity >= 1, f"Cyclomatic complexity of\
+                      {func_name} in {file_path} should be >= 1"
 
-    def test_halstead_complexity(self, metrics: CodeComplexityAndQualityMetrics, temp_py_files: List[str]) -> None:
+    def test_halstead_complexity(self, metrics: CodeComplexityAndQualityMetrics,\
+                                  temp_py_files: List[str]) -> None:
         """
         Tests the Halstead complexity calculation method.
         """
-        halstead_data = metrics._CodeComplexityAndQualityMetrics__calculate_halstead_complexity(temp_py_files)
+        halstead_data = metrics.\
+            _CodeComplexityAndQualityMetrics__calculate_halstead_complexity(temp_py_files)
         for file_path, metrics_dict in halstead_data.items():
             for key in ["n1", "n2", "N1", "N2"]:
                 assert key in metrics_dict, f"Missing Halstead metric '{key}' in {file_path}"
                 assert isinstance(metrics_dict[key], int), f"{key} should be an int"
 
-    def test_lcom(self, metrics: CodeComplexityAndQualityMetrics, parsed_py_files: List[ast.AST]) -> None:
+    def test_lcom(self, metrics: CodeComplexityAndQualityMetrics,\
+                   parsed_py_files: List[ast.AST]) -> None:
         """
         Tests the LCOM calculation method for the classes in the sample files.
         """
-        lcom_data = metrics._CodeComplexityAndQualityMetrics__calculate_lcom(parsed_py_files)
+        lcom_data = metrics.\
+            _CodeComplexityAndQualityMetrics__calculate_lcom(parsed_py_files)
         for class_name, data in lcom_data.items():
             assert "lcom" in data, f"Missing 'lcom' value in class {class_name}"
             assert "methods" in data, f"Missing 'methods' count in class {class_name}"
@@ -133,11 +146,13 @@ class TestCodeComplexityAndQualityMetrics:
             assert data["lcom"] >= 0, "LCOM value should be >= 0"
             assert data["methods"] >= 0, "Number of methods should be >= 0"
 
-    def test_dead_code(self, metrics: CodeComplexityAndQualityMetrics, temp_py_files: List[str]) -> None:
+    def test_dead_code(self, metrics: CodeComplexityAndQualityMetrics,\
+                        temp_py_files: List[str]) -> None:
         """
         Tests detection of dead (unused) code in the sample files.
         """
-        dead_code = metrics._CodeComplexityAndQualityMetrics__find_dead_code(temp_py_files)
+        dead_code = metrics.\
+            _CodeComplexityAndQualityMetrics__find_dead_code(temp_py_files)
         assert any("unused_function" in unused_item.name for unused_item in dead_code), (
             "Expected 'unused_function' to be detected as dead code."
         )

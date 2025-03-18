@@ -1,13 +1,18 @@
+"""
+This module provides dependency and coupling metrics tests
+"""
+
 import sys
+import ast
 from pathlib import Path
+import pytest
+
+from python_ext_stats.metrics.dependency_and_coupling_metrics import DependencyAndCouplingMetrics
+
 
 PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.append(str(PROJECT_ROOT))
 
-import pytest
-import ast
-from models.project_metrics import ProjectMetrics
-from models.dependency_and_coupling_metrics import DependencyAndCouplingMetrics
 
 
 @pytest.fixture
@@ -41,17 +46,15 @@ def all_files_with_extensions(tmp_path):
     """Fixture for a list of files with various extensions, excluding virtual environments."""
     file1 = tmp_path / "script.py"
     file1.write_text("# Sample script")
-    
+
     file2 = tmp_path / "data.csv"
     file2.write_text("col1,col2\nval1,val2")
-    
+
     file3 = tmp_path / "report.txt"
     file3.write_text("This is a report.")
 
-    all_files = [
-        f for f in tmp_path.rglob("*")
-    ]
-    
+    all_files = list(tmp_path.rglob("*"))
+
     return all_files
 
 class TestDependencyAndCouplingMetrics:
@@ -69,7 +72,8 @@ class TestDependencyAndCouplingMetrics:
         """
         Test counting unique libraries from parsed files with imports.
         """
-        result = metrics._DependencyAndCouplingMetrics__count_number_of_libs(parsed_files_with_imports)
+        result = metrics._DependencyAndCouplingMetrics__count_number_of_libs\
+            (parsed_files_with_imports)
         assert result == 4  # os, sys, collections, mymodule
 
     def test_get_all_file_extensions_empty(self, metrics):
@@ -83,7 +87,8 @@ class TestDependencyAndCouplingMetrics:
         """
         Test retrieving unique file extensions from a list of files, excluding virtual environments.
         """
-        result = metrics._DependencyAndCouplingMetrics__get_all_file_extensions(all_files_with_extensions)
-        
+        result = metrics._DependencyAndCouplingMetrics__get_all_file_extensions\
+            (all_files_with_extensions)
+
         # Ensure only valid extensions are included and the virtual environment file is ignored
         assert result == {'.py', '.csv', '.txt'}

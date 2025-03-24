@@ -31,7 +31,7 @@ from python_ext_stats.metrics.code_complexity_and_quality_metrics import (
 )
 
 from docs.metrics_list import metrics_list
-from config import VENV_DIRS
+from python_ext_stats.config import VENV_DIRS
 
 
 class ExtPythonStats:

@@ -1,42 +1,42 @@
 <?xml version="1.0" ?>
 <report>
  <report-time>24.03.2025</report-time>
- <repository-path>C:\Users\ASUS\python-extebhjvgvg</repository-path>
+ <repository-path>C:\Users\ASUS\python-extended-stats\python_ext_stats</repository-path>
  <metrics>
-  <metric name="Number of Classes">0</metric>
-  <metric name="Number of Methods">0</metric>
-  <metric name="Number of Static Methods">0</metric>
-  <metric name="Maximum Number of Method Parameters">0</metric>
-  <metric name="Maximum Method Length">0</metric>
-  <metric name="Number of Decorators">0</metric>
-  <metric name="Number of Public Constants in File">0</metric>
-  <metric name="Number of Libraries">0</metric>
-  <metric name="Number of Extensions in the Project">set()</metric>
-  <metric name="Coupling Between Objects">{}</metric>
-  <metric name="Number of Files in the Project">0</metric>
-  <metric name="Depth of the Project File System Tree">0</metric>
-  <metric name="Average Number of Lines per File">0</metric>
-  <metric name="Average Number of Lines per Method">0</metric>
-  <metric name="Average Number of Methods per Class">0</metric>
-  <metric name="Average Number of Parameters per Method/Function">0</metric>
-  <metric name="Number of Functions or Methods Without Docstrings">0</metric>
-  <metric name="Number of Functions or Methods Without Typing">0</metric>
-  <metric name="Number of Context Managers">0</metric>
-  <metric name="Number of Handled Exceptions">0</metric>
-  <metric name="Method Hiding Factor">0</metric>
-  <metric name="Attribute Hiding Factor">0.0</metric>
-  <metric name="Method Inheritance Factor">{}</metric>
-  <metric name="Polymorphism Factor">{}</metric>
-  <metric name="Depth Of Inheritance Tree">0</metric>
-  <metric name="Duplication Percentage">0.0</metric>
-  <metric name="Maximum Line Length">-1</metric>
-  <metric name="Lines of Code">0</metric>
-  <metric name="Average Line Length">0.0</metric>
-  <metric name="Average Identifier Length">{'class': 0.0, 'method': 0.0, 'field': 0.0}</metric>
+  <metric name="Number of Classes">13</metric>
+  <metric name="Number of Methods">74</metric>
+  <metric name="Number of Static Methods">44</metric>
+  <metric name="Maximum Number of Method Parameters">4</metric>
+  <metric name="Maximum Method Length">85</metric>
+  <metric name="Number of Decorators">60</metric>
+  <metric name="Number of Public Constants in File">35</metric>
+  <metric name="Number of Libraries">26</metric>
+  <metric name="Number of Extensions in the Project">{'.py', '.pyc'}</metric>
+  <metric name="Coupling Between Objects">{'ExtPythonStats': 14, 'AverageBasedMetrics': 7, 'CBOMetric': 10, 'ClassMetrics': 11, 'CodeComplexityAndQualityMetrics': 11, 'CyclomaticComplexityVisitor': 2, '_AttributeVisitor': 3, 'CodeStructuresMetrics': 6, 'DependencyAndCouplingMetrics': 4, 'MaintainabilityMetrics': 5, 'ProjectFileStructureMetrics': 3, 'ProjectMetrics': 1, 'ReadabilityAndFormattingMetrics': 9}</metric>
+  <metric name="Number of Files in the Project">55</metric>
+  <metric name="Depth of the Project File System Tree">3</metric>
+  <metric name="Average Number of Lines per File">116.66666666666667</metric>
+  <metric name="Average Number of Lines per Method">17.58888888888889</metric>
+  <metric name="Average Number of Methods per Class">5.6923076923076925</metric>
+  <metric name="Average Number of Parameters per Method/Function">1.4666666666666666</metric>
+  <metric name="Number of Functions or Methods Without Docstrings">13</metric>
+  <metric name="Number of Functions or Methods Without Typing">45</metric>
+  <metric name="Number of Context Managers">9</metric>
+  <metric name="Number of Handled Exceptions">1</metric>
+  <metric name="Method Hiding Factor">0.04054054054054054</metric>
+  <metric name="Attribute Hiding Factor">1.0</metric>
+  <metric name="Method Inheritance Factor">{'ExtPythonStats': 0.0, 'AverageBasedMetrics': 0.0, 'CBOMetric': 0.0, 'ClassMetrics': 0.0, 'CodeComplexityAndQualityMetrics': 0.0, 'CyclomaticComplexityVisitor': 0.0, '_AttributeVisitor': 0.0, 'CodeStructuresMetrics': 0.0, 'DependencyAndCouplingMetrics': 0.0, 'MaintainabilityMetrics': 0.0, 'ProjectFileStructureMetrics': 0.0, 'ProjectMetrics': 0.0, 'ReadabilityAndFormattingMetrics': 0.0}</metric>
+  <metric name="Polymorphism Factor">{'ExtPythonStats': 0.0, 'AverageBasedMetrics': 0.0, 'CBOMetric': 0.0, 'ClassMetrics': 0.0, 'CodeComplexityAndQualityMetrics': 0.0, 'CyclomaticComplexityVisitor': 0.0, '_AttributeVisitor': 0.0, 'CodeStructuresMetrics': 0.0, 'DependencyAndCouplingMetrics': 0.0, 'MaintainabilityMetrics': 0.0, 'ProjectFileStructureMetrics': 0.0, 'ProjectMetrics': 0.0, 'ReadabilityAndFormattingMetrics': 0.0}</metric>
+  <metric name="Depth Of Inheritance Tree">1</metric>
+  <metric name="Duplication Percentage">40.324858757062145</metric>
+  <metric name="Maximum Line Length">99</metric>
+  <metric name="Lines of Code">1750</metric>
+  <metric name="Average Line Length">32.077714285714286</metric>
+  <metric name="Average Identifier Length">{'class': 20.923076923076923, 'method': 20.87837837837838, 'field': 9.166666666666666}</metric>
   <metric name="Number of pass keywords">0</metric>
-  <metric name="Cyclomatic Complexity">{}</metric>
-  <metric name="Halstead Complexity">{}</metric>
-  <metric name="LCOM">{}</metric>
-  <metric name="Dead code: unused objects">[]</metric>
+  <metric name="Cyclomatic Complexity">{WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/config.py'): {}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/ext_python_stats.py'): {'__init__': 6, 'get_metrics_list': 1, 'get_metric_by_name': 2, 'print': 3, 'report': 1}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/main.py'): {'main': 1}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/__init__.py'): {}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/average_based_metrics.py'): {'value': 1, 'available_metrics': 1, 'count_average_number_of_lines_per_file': 4, 'count_average_number_of_lines_per_method': 7, 'count_average_number_of_methods_per_class': 6, 'count_average_number_of_params_per_method_or_function': 5}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/CBO_metric.py'): {'value': 1, 'available_metrics': 1, 'count_coupling_between_objects': 20, 'add_module_classes': 3, 'add_bases_names': 5, 'add_call_names_for_attr': 5, 'walk_module': 9, 'add_call_names': 4}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/class_metrics.py'): {'value': 1, 'available_metrics': 1, 'calculate_method_hiding_factor': 8, 'calculate_attribute_hiding_factor': 13, 'calculate_method_inheritance_factor': 15, 'calculate_method_polymorphism_factor': 16, 'calculate_depth_of_inheritance_tree': 17, 'func_behaviour': 3, 'add_attr_nums': 8, 'behave_other_nodes': 6, 'behave_other_node': 7, 'get_base_name': 4, 'pseudo_dfs': 4}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/code_complexity_and_quality_metrics.py'): {'value': 1, 'available_metrics': 1, 'calculate_cyclomatic_complexity': 6, 'calculate_halstead_complexity': 3, 'calculate_lcom': 14, 'find_dead_code': 1, '__init__': 1, 'visit_If': 1, 'visit_For': 1, 'visit_AsyncFor': 1, 'visit_While': 1, 'visit_With': 1, 'visit_AsyncWith': 1, 'visit_ExceptHandler': 1, 'visit_BoolOp': 1, 'visit_IfExp': 1, 'visit_comprehension': 1, 'visit_Raise': 1, 'visit_Assert': 1, 'run_methods_lcom': 6, 'visit_Attribute': 3}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/code_structure_metrics.py'): {'value': 1, 'available_metrics': 1, 'count_number_of_classes': 1, 'count_number_of_methods_in_classes': 6, 'count_number_of_static_methods_in_classes': 6, 'count_max_number_of_method_params': 4, 'count_max_method_length': 5, 'count_number_of_decorators': 4, 'count_number_of_constants': 7}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/dependency_and_coupling_metrics.py'): {'value': 1, 'available_metrics': 1, 'count_number_of_libs': 6, 'get_all_file_extensions': 4}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/maintainability_metrics.py'): {'value': 1, 'available_metrics': 1, 'count_number_of_functions_or_methods_without_docstrings': 5, 'count_number_of_functions_or_methods_without_typing': 10, 'count_number_of_context_managers': 4, 'count_number_of_handled_exceptions': 8, 'run_temp_try_handlers': 5}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/project_file_structure_metrics.py'): {'value': 1, 'available_metrics': 1, 'get_depth_of_the_project_file_system_tree': 1}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/project_metrics.py'): {'value': 1, 'available_metrics': 1}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/readability_and_formatting_metrics.py'): {'value': 1, 'available_metrics': 1, 'calculate_duplication_percentage': 7, 'calculate_maximum_line_length': 5, 'count_lines_of_code': 3, 'calculate_average_line_length': 4, 'calculate_average_identifier_length': 20, 'count_number_pass_keywords': 4, 'behave_func': 9, 'behave_assign': 3}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/__init__.py'): {}}</metric>
+  <metric name="Halstead Complexity">{WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/config.py'): {'n1': 0, 'n2': 0, 'N1': 0, 'N2': 0}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/ext_python_stats.py'): {'n1': 2, 'n2': 4, 'N1': 4, 'N2': 6}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/main.py'): {'n1': 1, 'n2': 2, 'N1': 1, 'N2': 2}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/__init__.py'): {'n1': 0, 'n2': 0, 'N1': 0, 'N2': 0}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/average_based_metrics.py'): {'n1': 5, 'n2': 22, 'N1': 17, 'N2': 34}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/CBO_metric.py'): {'n1': 3, 'n2': 9, 'N1': 5, 'N2': 10}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/class_metrics.py'): {'n1': 7, 'n2': 40, 'N1': 24, 'N2': 47}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/code_complexity_and_quality_metrics.py'): {'n1': 5, 'n2': 35, 'N1': 21, 'N2': 42}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/code_structure_metrics.py'): {'n1': 5, 'n2': 18, 'N1': 10, 'N2': 19}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/dependency_and_coupling_metrics.py'): {'n1': 1, 'n2': 2, 'N1': 1, 'N2': 2}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/maintainability_metrics.py'): {'n1': 3, 'n2': 21, 'N1': 13, 'N2': 24}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/project_file_structure_metrics.py'): {'n1': 0, 'n2': 0, 'N1': 0, 'N2': 0}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/project_metrics.py'): {'n1': 0, 'n2': 0, 'N1': 0, 'N2': 0}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/readability_and_formatting_metrics.py'): {'n1': 8, 'n2': 32, 'N1': 20, 'N2': 39}, WindowsPath('C:/Users/ASUS/python-extended-stats/python_ext_stats/metrics/__init__.py'): {'n1': 0, 'n2': 0, 'N1': 0, 'N2': 0}}</metric>
+  <metric name="LCOM">{'ExtPythonStats': {'lcom': 4, 'methods': 5, 'attributes': ['path', 'parsed_py_files', 'repo_path', 'all_files', 'py_files']}, 'AverageBasedMetrics': {'lcom': 15, 'methods': 6, 'attributes': []}, 'CBOMetric': {'lcom': 3, 'methods': 3, 'attributes': []}, 'ClassMetrics': {'lcom': 21, 'methods': 7, 'attributes': []}, 'CodeComplexityAndQualityMetrics': {'lcom': 15, 'methods': 6, 'attributes': ['generic_visit', 'attributes']}, 'CyclomaticComplexityVisitor': {'lcom': 0, 'methods': 13, 'attributes': ['generic_visit', 'complexity']}, '_AttributeVisitor': {'lcom': 0, 'methods': 2, 'attributes': ['generic_visit', 'attributes']}, 'CodeStructuresMetrics': {'lcom': 36, 'methods': 9, 'attributes': []}, 'DependencyAndCouplingMetrics': {'lcom': 6, 'methods': 4, 'attributes': []}, 'MaintainabilityMetrics': {'lcom': 15, 'methods': 6, 'attributes': []}, 'ProjectFileStructureMetrics': {'lcom': 3, 'methods': 3, 'attributes': []}, 'ProjectMetrics': {'lcom': 1, 'methods': 2, 'attributes': []}, 'ReadabilityAndFormattingMetrics': {'lcom': 28, 'methods': 8, 'attributes': []}}</metric>
+  <metric name="Dead code: unused objects">['get_metrics_list', 'get_metric_by_name', 'text', 'text', 'text', 'available_metrics', 'available_metrics', 'available_metrics', 'available_metrics', 'available_metrics', 'available_metrics', 'available_metrics', 'available_metrics', 'available_metrics', 'available_metrics']</metric>
  </metrics>
 </report>

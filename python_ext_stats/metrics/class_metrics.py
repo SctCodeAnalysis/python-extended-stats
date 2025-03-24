@@ -12,7 +12,8 @@ class ClassMetrics(ProjectMetrics):
     """
     Class for class-metrics
     """
-    def value(self, parsed_py_files: List) -> Dict[str, Any]:
+    @classmethod
+    def value(cls, parsed_py_files: List) -> Dict[str, Any]:
         """
         Calculates all class-metrics and returns a dict filled with them
 
@@ -22,19 +23,19 @@ class ClassMetrics(ProjectMetrics):
         result_metrics = {}
 
         result_metrics["Method Hiding Factor"] = \
-            self.__calculate_method_hiding_factor(parsed_py_files)
+            cls.calculate_method_hiding_factor(parsed_py_files)
         result_metrics["Attribute Hiding Factor"] = \
-            self.__calculate_attribute_hiding_factor(parsed_py_files)
+            cls.calculate_attribute_hiding_factor(parsed_py_files)
         result_metrics["Method Inheritance Factor"] = \
-            self.__calculate_method_inheritance_factor(parsed_py_files)
+            cls.calculate_method_inheritance_factor(parsed_py_files)
         result_metrics["Polymorphism Factor"] = \
-            self.__calculate_method_polymorphism_factor(parsed_py_files)
+            cls.calculate_method_polymorphism_factor(parsed_py_files)
         result_metrics["Depth Of Inheritance Tree"] = \
-            self.__calculate_depth_of_inheritance_tree(parsed_py_files)
-        # result_metrics["Response for a Class"]
+            cls.calculate_depth_of_inheritance_tree(parsed_py_files)
         return result_metrics
 
-    def available_metrics(self) -> List[str]:
+    @staticmethod
+    def available_metrics() -> List[str]:
         """
         Method to present a list of avaliable class metrics
 
@@ -47,13 +48,20 @@ class ClassMetrics(ProjectMetrics):
                 "Depth Of Inheritance Tree"
                 ]
 
-    def __calculate_method_hiding_factor(self, parsed_py_files: List) -> float:
+    @staticmethod
+    def calculate_method_hiding_factor(parsed_py_files: List) -> float:
         """
         Calculates the ratio of private methods to total methods from 0 to 1 as a float
 
         Returns:
             float: calculated method-hiding factor
         """
+        def func_behaviour(subnode, private_method_num, total_method_num):
+            if isinstance(subnode, ast.FunctionDef):
+                if subnode.name.startswith("_"):
+                    private_method_num += 1
+                total_method_num += 1
+            return total_method_num, private_method_num
 
         private_method_num = 0
         total_method_num = 0
@@ -62,20 +70,34 @@ class ClassMetrics(ProjectMetrics):
             for node in ast.walk(parsed_ast):
                 if isinstance(node, (ast.ClassDef)):
                     for subnode in node.body:
-                        if isinstance(subnode, ast.FunctionDef):
-                            if subnode.name.startswith("_"):
-                                private_method_num += 1
-                            total_method_num += 1
+                        total_method_num, private_method_num =\
+                            func_behaviour(subnode, private_method_num, total_method_num)
 
         return private_method_num / total_method_num if total_method_num else 0
 
-    def __calculate_attribute_hiding_factor(self, parsed_py_files: List) -> float:
+    @staticmethod
+    def calculate_attribute_hiding_factor(parsed_py_files: List) -> float:
         """
         Calculates  the ratio of private attributes to total attributess from 0 to 1 as a float
          
         Returns:
             float: calculated attribute-hiding factor
         """
+        def add_attr_nums(subnode, private_attr_num, total_attr_num):
+            if isinstance(subnode, ast.Assign):
+                for target in subnode.targets:
+                    if isinstance(target, ast.Name) and target.id.startswith("_"):
+                        private_attr_num += 1
+
+                total_attr_num += 1
+
+            elif isinstance(subnode, ast.AnnAssign):
+                if isinstance(subnode.target, ast.Name) \
+                    and subnode.target.id.startswith("_"):
+                    private_attr_num += 1
+
+                total_attr_num += 1
+            return private_attr_num, total_attr_num
 
         private_attr_num = 0
         total_attr_num = 0
@@ -84,23 +106,13 @@ class ClassMetrics(ProjectMetrics):
             for node in ast.walk(parsed_ast):
                 if isinstance(node, (ast.ClassDef)):
                     for subnode in node.body:
-                        if isinstance(subnode, ast.Assign):
-                            for target in subnode.targets:
-                                if isinstance(target, ast.Name) and target.id.startswith("_"):
-                                    private_attr_num += 1
-
-                            total_attr_num += 1
-
-                        elif isinstance(subnode, ast.AnnAssign):
-                            if isinstance(subnode.target, ast.Name) \
-                                and subnode.target.id.startswith("_"):
-                                private_attr_num += 1
-
-                            total_attr_num += 1
+                        private_attr_num, total_attr_num = \
+                        add_attr_nums(subnode, private_attr_num, total_attr_num)
 
         return private_attr_num / total_attr_num if total_attr_num else 0.0
 
-    def __calculate_method_inheritance_factor(self, parsed_py_files: List) -> Dict:
+    @staticmethod
+    def calculate_method_inheritance_factor(parsed_py_files: List) -> Dict:
         """
         Calculates the ratio of inherited methods to total methods
         from 0 to 1 as a float for each class
@@ -108,6 +120,15 @@ class ClassMetrics(ProjectMetrics):
         Returns:
             Dict: calculated ratios of inherited methods for each class 
         """
+
+        def behave_other_nodes(tree, inherited_methods_num, all_methods):
+            for other_node in ast.walk(tree):
+                if isinstance(other_node, ast.ClassDef) and other_node.name in base_names:
+                    for subnode in other_node.body:
+                        if isinstance(subnode, ast.FunctionDef):
+                            inherited_methods_num += 1
+                            all_methods.add(subnode.name)
+            return inherited_methods_num
 
         result_inheritance = {}
 
@@ -127,12 +148,8 @@ class ClassMetrics(ProjectMetrics):
                         if isinstance(subnode, ast.FunctionDef):
                             all_methods.add(subnode.name)
 
-                    for other_node in ast.walk(tree):
-                        if isinstance(other_node, ast.ClassDef) and other_node.name in base_names:
-                            for subnode in other_node.body:
-                                if isinstance(subnode, ast.FunctionDef):
-                                    inherited_methods_num += 1
-                                    all_methods.add(subnode.name)
+                    inherited_methods_num = \
+                    behave_other_nodes(tree, inherited_methods_num, all_methods)
 
                     result_inheritance[node.name] = (
                         inherited_methods_num / len(all_methods)
@@ -142,7 +159,8 @@ class ClassMetrics(ProjectMetrics):
 
         return result_inheritance
 
-    def __calculate_method_polymorphism_factor(self, parsed_py_files: List) -> Dict:
+    @staticmethod
+    def calculate_method_polymorphism_factor(parsed_py_files: List) -> Dict:
         """
         Calculates the ratio of overriden methods to total
         methods from 0 to 1 as a float for each class
@@ -150,6 +168,15 @@ class ClassMetrics(ProjectMetrics):
         Returns:
             Dict: calculated ratios of overriden methods for each class 
         """
+        def behave_other_node(tree, overriden_methods_num, all_methods):
+            for other_node in ast.walk(tree):
+                if isinstance(other_node, ast.ClassDef) and other_node.name in base_names:
+                    for subnode in other_node.body:
+                        if isinstance(subnode, ast.FunctionDef):
+                            if subnode.name in init_methods:
+                                overriden_methods_num += 1
+                            all_methods.add(subnode.name)
+            return overriden_methods_num
 
         result_polymorphism = {}
 
@@ -172,13 +199,8 @@ class ClassMetrics(ProjectMetrics):
                             init_methods.append(subnode.name)
                             all_methods.add(subnode.name)
 
-                    for other_node in ast.walk(tree):
-                        if isinstance(other_node, ast.ClassDef) and other_node.name in base_names:
-                            for subnode in other_node.body:
-                                if isinstance(subnode, ast.FunctionDef):
-                                    if subnode.name in init_methods:
-                                        overriden_methods_num += 1
-                                    all_methods.add(subnode.name)
+                    overriden_methods_num = \
+                    behave_other_node(tree, overriden_methods_num, all_methods)
 
                     if all_methods:
                         result_polymorphism[node.name] = overriden_methods_num / len(all_methods)
@@ -187,7 +209,8 @@ class ClassMetrics(ProjectMetrics):
 
         return result_polymorphism
 
-    def __calculate_depth_of_inheritance_tree(self, parsed_py_files: List) -> int:
+    @staticmethod
+    def calculate_depth_of_inheritance_tree(parsed_py_files: List) -> int:
         """
         Calculates the depth of the inheritance tree by analyzing class dependencies.
 

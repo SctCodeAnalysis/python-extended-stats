@@ -104,7 +104,7 @@ class TestClassMetrics:
         Test CBO calculation for class without dependencies.
         Expected MHF: 0
         """
-        result = classmetrics._ClassMetrics__calculate_method_hiding_factor([empty_class_module])
+        result = classmetrics.calculate_method_hiding_factor([empty_class_module])
         assert result == 0
 
     def test_method_hiding_factor_simple_class(self, classmetrics: ClassMetrics,\
@@ -113,7 +113,7 @@ class TestClassMetrics:
         Test CBO calculation for class without dependencies.
         Expected MHF: 0.5
         """
-        result = classmetrics._ClassMetrics__calculate_method_hiding_factor([simple_class_module])
+        result = classmetrics.calculate_method_hiding_factor([simple_class_module])
         assert result == 0.5
 
     def test_attribute_hiding_factor_empty_class(self, classmetrics: ClassMetrics,\
@@ -122,7 +122,7 @@ class TestClassMetrics:
         Test CBO calculation for class without dependencies.
         Expected MHF: 0
         """
-        result = classmetrics._ClassMetrics__calculate_attribute_hiding_factor([empty_class_module])
+        result = classmetrics.calculate_attribute_hiding_factor([empty_class_module])
         assert result == 0
 
     def test_attribute_hiding_factor_simple_class(self, classmetrics: ClassMetrics,\
@@ -132,7 +132,7 @@ class TestClassMetrics:
         Expected MHF: 0.5
         """
         result = classmetrics.\
-            _ClassMetrics__calculate_attribute_hiding_factor([simple_class_module])
+            calculate_attribute_hiding_factor([simple_class_module])
         assert result == 0.5
 
     def test_method_inheritance_factor_empty_class(self, classmetrics: ClassMetrics,\
@@ -142,7 +142,7 @@ class TestClassMetrics:
         Expected MIF: 0
         """
         result = classmetrics.\
-            _ClassMetrics__calculate_method_inheritance_factor([empty_class_module])
+            calculate_method_inheritance_factor([empty_class_module])
         assert result["EmptyClass"] == 0
 
     def test_method_inheritance_factor_simple_class(self, classmetrics: ClassMetrics,\
@@ -152,7 +152,7 @@ class TestClassMetrics:
         Expected MIF: 0, 0.75
         """
         result = classmetrics.\
-            _ClassMetrics__calculate_method_inheritance_factor([simple__two_class_module])
+            calculate_method_inheritance_factor([simple__two_class_module])
         assert result["Test"] == 0.75 and result["A"] == 0.0
 
     def test_method_polymorphism_factor_empty_class(self, classmetrics: ClassMetrics,\
@@ -162,7 +162,7 @@ class TestClassMetrics:
         Expected MIF: 0
         """
         result = classmetrics.\
-            _ClassMetrics__calculate_method_polymorphism_factor([empty_class_module])
+            calculate_method_polymorphism_factor([empty_class_module])
         assert result["EmptyClass"] == 0
 
     def test_method_polymorphism_factor_simple_class(self, classmetrics: ClassMetrics,\
@@ -172,7 +172,7 @@ class TestClassMetrics:
         Expected MIF: 0.5, 0
         """
         result = classmetrics.\
-            _ClassMetrics__calculate_method_polymorphism_factor([simple__two_class_module])
+            calculate_method_polymorphism_factor([simple__two_class_module])
         assert result["Test"] == 0.5 and result["A"] == 0.0
 
     def test_depth_of_inheritance_tree_empty_class(self, classmetrics: ClassMetrics,\
@@ -182,7 +182,7 @@ class TestClassMetrics:
         Expected DIT: 1
         """
         result = classmetrics.\
-            _ClassMetrics__calculate_depth_of_inheritance_tree([empty_class_module])
+            calculate_depth_of_inheritance_tree([empty_class_module])
         assert result == 1
 
     def test_depth_of_inheritance_tree_basic_classes(self, classmetrics: ClassMetrics,\
@@ -192,5 +192,5 @@ class TestClassMetrics:
         Expected DIT: 4
         """
         result = classmetrics.\
-            _ClassMetrics__calculate_depth_of_inheritance_tree([sample_inheritance_class_module])
+            calculate_depth_of_inheritance_tree([sample_inheritance_class_module])
         assert result == 4

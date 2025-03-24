@@ -114,7 +114,7 @@ class TestCodeComplexityAndQualityMetrics:
         Tests the cyclomatic complexity calculation method.
         """
         complexities = metrics.\
-            _CodeComplexityAndQualityMetrics__calculate_cyclomatic_complexity(temp_py_files)
+            calculate_cyclomatic_complexity(temp_py_files)
         for file_path, data in complexities.items():
             for func_name, complexity in data.items():
                 assert complexity >= 1, f"Cyclomatic complexity of\
@@ -126,7 +126,7 @@ class TestCodeComplexityAndQualityMetrics:
         Tests the Halstead complexity calculation method.
         """
         halstead_data = metrics.\
-            _CodeComplexityAndQualityMetrics__calculate_halstead_complexity(temp_py_files)
+            calculate_halstead_complexity(temp_py_files)
         for file_path, metrics_dict in halstead_data.items():
             for key in ["n1", "n2", "N1", "N2"]:
                 assert key in metrics_dict, f"Missing Halstead metric '{key}' in {file_path}"
@@ -138,7 +138,10 @@ class TestCodeComplexityAndQualityMetrics:
         Tests the LCOM calculation method for the classes in the sample files.
         """
         lcom_data = metrics.\
-            _CodeComplexityAndQualityMetrics__calculate_lcom(parsed_py_files)
+            calculate_lcom(parsed_py_files)
+
+        print(f">>>>>>>>>>> LCOM DATA:\n {lcom_data}")
+
         for class_name, data in lcom_data.items():
             assert "lcom" in data, f"Missing 'lcom' value in class {class_name}"
             assert "methods" in data, f"Missing 'methods' count in class {class_name}"
@@ -152,7 +155,8 @@ class TestCodeComplexityAndQualityMetrics:
         Tests detection of dead (unused) code in the sample files.
         """
         dead_code = metrics.\
-            _CodeComplexityAndQualityMetrics__find_dead_code(temp_py_files)
+            find_dead_code(temp_py_files)
+
         assert any("unused_function" in unused_item.name for unused_item in dead_code), (
             "Expected 'unused_function' to be detected as dead code."
         )

@@ -83,7 +83,7 @@ class TestCBOMetric:
         Test CBO calculation for class without dependencies.
         Expected CBO: 0
         """
-        result = cbometric._CBOMetric__count_coupling_between_objects([empty_class_module])
+        result = cbometric.count_coupling_between_objects([empty_class_module])
         assert result["EmptyClass"] == 0
 
     def test_inheritance_cbo(self, cbometric: CBOMetric, inheritance_class_module: ast.Module):
@@ -91,7 +91,7 @@ class TestCBOMetric:
         Test CBO calculation with class inheritance.
         Expected CBO for DerivedClass: 1 (BaseClass)
         """
-        result = cbometric._CBOMetric__count_coupling_between_objects([inheritance_class_module])
+        result = cbometric.count_coupling_between_objects([inheritance_class_module])
         assert result["DerivedClass"] == 1
 
     def test_method_calls_cbo(self, cbometric: CBOMetric, method_calls_module: ast.Module):
@@ -101,7 +101,7 @@ class TestCBOMetric:
         - ClassA: 0
         - ClassB: 1 (ClassA)
         """
-        result = cbometric._CBOMetric__count_coupling_between_objects([method_calls_module])
+        result = cbometric.count_coupling_between_objects([method_calls_module])
         print(f"CALCULATED RESULT: {result}")
         assert result["ClassA"] == 0
         assert result["ClassB"] == 1
@@ -111,5 +111,5 @@ class TestCBOMetric:
         Test CBO calculation with combined inheritance and method calls.
         Expected CBO for Child: 2 (Parent + OtherClass)
         """
-        result = cbometric._CBOMetric__count_coupling_between_objects([complex_case_module])
+        result = cbometric.count_coupling_between_objects([complex_case_module])
         assert result["Child"] == 2

@@ -12,7 +12,8 @@ class ProjectFileStructureMetrics(ProjectMetrics):
     """
     Class for project file structure metrics
     """
-    def value(self, all_files: List, repo_path: Path) -> Dict[str, Any]:
+    @classmethod
+    def value(cls, all_files: List, repo_path: Path) -> Dict[str, Any]:
         """
         Calculates all project file structure metrics and returns a dict filled with them
 
@@ -23,11 +24,12 @@ class ProjectFileStructureMetrics(ProjectMetrics):
 
         result_metrics["Number of Files in the Project"] = len(all_files)
         result_metrics["Depth of the Project File System Tree"] = \
-            self.__get_depth_of_the_project_file_system_tree(all_files, repo_path)
+            cls.get_depth_of_the_project_file_system_tree(all_files, repo_path)
 
         return result_metrics
 
-    def available_metrics(self) -> List[str]:
+    @staticmethod
+    def available_metrics() -> List[str]:
         """
         Method to present a list of avaliable Project File Structure Metrics
 
@@ -38,7 +40,8 @@ class ProjectFileStructureMetrics(ProjectMetrics):
                 "Depth of the Project File System Tree"
                 ]
 
-    def __get_depth_of_the_project_file_system_tree(self, all_files: List, repo_path: Path) -> int:
+    @staticmethod
+    def get_depth_of_the_project_file_system_tree(all_files: List, repo_path: Path) -> int:
         """
         Calculates depth of the repository filesystem tree
 

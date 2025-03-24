@@ -14,7 +14,8 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
     """
     Class for code complexity and quality metrics
     """
-    def value(self, parsed_py_files: List, py_files: List) -> Dict[str, Any]:
+    @classmethod
+    def value(cls, parsed_py_files: List, py_files: List) -> Dict[str, Any]:
         """
         Calculates all code complexity and quality metrics and returns a dict filled with them
 
@@ -23,14 +24,15 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
         """
         result_metrics = {}
 
-        result_metrics["Cyclomatic Complexity"] = self.__calculate_cyclomatic_complexity(py_files)
-        result_metrics["Halstead Complexity"] = self.__calculate_halstead_complexity(py_files)
-        result_metrics["LCOM"] = self.__calculate_lcom(parsed_py_files)
-        result_metrics["Dead code: unused objects"] = self.__find_dead_code(py_files)
+        result_metrics["Cyclomatic Complexity"] = cls.calculate_cyclomatic_complexity(py_files)
+        result_metrics["Halstead Complexity"] = cls.calculate_halstead_complexity(py_files)
+        result_metrics["LCOM"] = cls.calculate_lcom(parsed_py_files)
+        result_metrics["Dead code: unused objects"] = cls.find_dead_code(py_files)
 
         return result_metrics
 
-    def available_metrics(self) -> List[str]:
+    @staticmethod
+    def available_metrics() -> List[str]:
         """
         Method to present a list of avaliable Code Complexity And Quality Metrics
 
@@ -43,7 +45,8 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                 "Dead code: unused objects"
                 ]
 
-    def __calculate_cyclomatic_complexity(self, py_files: List[str]) -> Dict[str, Dict[str, int]]:
+    @staticmethod
+    def calculate_cyclomatic_complexity(py_files: List[str]) -> Dict[str, Dict[str, int]]:
         """
         Calculates cyclomatic complexity for each func in a Python file in the provided list.
             
@@ -61,9 +64,6 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
             except SyntaxError as e:
                 print(f"Syntax error in {file_path}: {e}")
                 continue
-            except Exception as e:
-                print(f"Error reading {file_path}: {e}")
-                continue
 
             file_complexities = {}
 
@@ -77,7 +77,8 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
 
         return results
 
-    def __calculate_halstead_complexity(self, py_files: List) -> List[Dict[str, int]]:
+    @staticmethod
+    def calculate_halstead_complexity(py_files: List) -> List[Dict[str, int]]:
         """
         Calculates Halstead complexity for each py file in the repository.
 
@@ -90,21 +91,19 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
             with open(py_file, "r", encoding="utf-8") as file:
                 code = file.read()
 
-            try:
-                analysis = h_visit(code)
-                metrics = {
-                    "n1": analysis.total.h1,
-                    "n2": analysis.total.h2,
-                    "N1": analysis.total.N1,
-                    "N2": analysis.total.N2,
-                }
-                halstead_metrics[py_file] = metrics
-            except Exception as e:
-                print(f"Error analyzing {py_file}: {str(e)}")
+            analysis = h_visit(code)
+            metrics = {
+                "n1": analysis.total.h1,
+                "n2": analysis.total.h2,
+                "N1": analysis.total.N1,
+                "N2": analysis.total.N2,
+            }
+            halstead_metrics[py_file] = metrics
 
         return halstead_metrics
 
-    def __calculate_lcom(self, parsed_py_files: List) -> Dict[str, Any]:
+    @staticmethod
+    def calculate_lcom(parsed_py_files: List) -> Dict[str, Any]:
         """
         Calculates LCOM metric for each class in a presented repo based on attributes' names
         
@@ -138,6 +137,27 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                     self.attributes.add(node.attr)
                 self.generic_visit(node)
 
+        def run_methods_lcom(methods):
+            lcom = 0
+            if len(methods) > 1:
+                p = 0
+                q = 0
+
+                len_m = len(methods)
+
+                for i in range(len_m):
+                    for j in range(i + 1, len(methods)):
+                        attrs_i = methods[i]["attributes"]
+                        attrs_j = methods[j]["attributes"]
+
+                        if attrs_i.isdisjoint(attrs_j):
+                            p += 1
+                        else:
+                            q += 1
+
+                lcom = p - q if p > q else 0
+            return lcom
+
         lcom_results = {}
 
         for parsed_file in parsed_py_files:
@@ -156,22 +176,7 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                                 "attributes": visitor.attributes
                             })
 
-                    lcom = 0
-                    if len(methods) > 1:
-                        p = 0
-                        q = 0
-
-                        for i in range(len(methods)):
-                            for j in range(i + 1, len(methods)):
-                                attrs_i = methods[i]["attributes"]
-                                attrs_j = methods[j]["attributes"]
-
-                                if attrs_i.isdisjoint(attrs_j):
-                                    p += 1
-                                else:
-                                    q += 1
-
-                        lcom = p - q if p > q else 0
+                    lcom = run_methods_lcom(methods)
 
                     all_attributes = set()
                     for method in methods:
@@ -185,7 +190,8 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
 
         return lcom_results
 
-    def __find_dead_code(self, py_files: List) -> List:
+    @staticmethod
+    def find_dead_code(py_files: List) -> List:
         """
         Detects dead code for each file in a presented repo
 

@@ -11,7 +11,8 @@ class CodeStructuresMetrics(ProjectMetrics):
     """
     Class for code structure metrics
     """
-    def value(self, parsed_py_files: List) -> Dict[str, Any]:
+    @classmethod
+    def value(cls, parsed_py_files: List) -> Dict[str, Any]:
         """
         Calculates all code ctructures metrics and returns a dict filled with them
 
@@ -20,23 +21,24 @@ class CodeStructuresMetrics(ProjectMetrics):
         """
         result_metrics = {}
 
-        result_metrics["Number of Classes"] = self.__count_number_of_classes(parsed_py_files)
+        result_metrics["Number of Classes"] = cls.count_number_of_classes(parsed_py_files)
         result_metrics["Number of Methods"] = \
-            self.__count_number_of_methods_in_classes(parsed_py_files)
+            cls.count_number_of_methods_in_classes(parsed_py_files)
         result_metrics["Number of Static Methods"] = \
-            self.__count_number_of_static_methods_in_classes(parsed_py_files)
+            cls.count_number_of_static_methods_in_classes(parsed_py_files)
         result_metrics["Maximum Number of Method Parameters"] = \
-            self.__count_max_number_of_method_params(parsed_py_files)
+            cls.count_max_number_of_method_params(parsed_py_files)
         result_metrics["Maximum Method Length"] = \
-            self.__count_max_method_length(parsed_py_files)
+            cls.count_max_method_length(parsed_py_files)
         result_metrics["Number of Decorators"] = \
-            self.__count_number_of_decorators(parsed_py_files)
+            cls.count_number_of_decorators(parsed_py_files)
         result_metrics["Number of Public Constants in File"] = \
-            self.__count_number_of_constants(parsed_py_files)
+            cls.count_number_of_constants(parsed_py_files)
 
         return result_metrics
 
-    def available_metrics(self) -> List[str]:
+    @staticmethod
+    def available_metrics() -> List[str]:
         """
         Method to present a list of avaliable code structure metrics
 
@@ -52,7 +54,8 @@ class CodeStructuresMetrics(ProjectMetrics):
                 "Number of Public Constants in File"
                 ]
 
-    def __count_number_of_classes(self, parsed_py_files: Dict) -> int:
+    @staticmethod
+    def count_number_of_classes(parsed_py_files: Dict) -> int:
         """
         Calculates the total number of classes in all Python files within the repository.
 
@@ -65,7 +68,8 @@ class CodeStructuresMetrics(ProjectMetrics):
             for node in ast.walk(tree)
         )
 
-    def __count_number_of_methods_in_classes(self, parsed_py_files: Dict) -> int:
+    @staticmethod
+    def count_number_of_methods_in_classes(parsed_py_files: Dict) -> int:
         """
         Counts the number of methods in all the classes across the parsed Python files.
 
@@ -83,7 +87,8 @@ class CodeStructuresMetrics(ProjectMetrics):
 
         return method_count
 
-    def __count_number_of_static_methods_in_classes(self, parsed_py_files: Dict) -> int:
+    @staticmethod
+    def count_number_of_static_methods_in_classes(parsed_py_files: Dict) -> int:
         """
         Counts the number of static methods in all the classes across the parsed Python files.
 
@@ -101,7 +106,8 @@ class CodeStructuresMetrics(ProjectMetrics):
 
         return static_methods_count
 
-    def __count_max_number_of_method_params(self, parsed_py_files: Dict) -> int:
+    @staticmethod
+    def count_max_number_of_method_params(parsed_py_files: Dict) -> int:
         """
         Finds the maximum number of parameters across all methods in the parsed Python files.
 
@@ -118,7 +124,8 @@ class CodeStructuresMetrics(ProjectMetrics):
 
         return max_params
 
-    def __count_max_method_length(self, parsed_py_files: Dict) -> int:
+    @staticmethod
+    def count_max_method_length(parsed_py_files: Dict) -> int:
         """
         Finds the maximum length (in lines) of a method across all the parsed Python files.
 
@@ -138,7 +145,8 @@ class CodeStructuresMetrics(ProjectMetrics):
 
         return max_length
 
-    def __count_number_of_decorators(self, parsed_py_files: Dict) -> int:
+    @staticmethod
+    def count_number_of_decorators(parsed_py_files: Dict) -> int:
         """
         Counts the total number of decorators applied to functions
         and classes in the parsed Python files.
@@ -156,7 +164,8 @@ class CodeStructuresMetrics(ProjectMetrics):
 
         return count
 
-    def __count_number_of_constants(self, parsed_py_files: Dict) -> int:
+    @staticmethod
+    def count_number_of_constants(parsed_py_files: Dict) -> int:
         """
         Counts the total number of constants assigned in the parsed Python files.
 

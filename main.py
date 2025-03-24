@@ -1,6 +1,7 @@
 """
 This module is the main script to activate the python-ext-stats
 """
+import warnings
 import click
 
 from python_ext_stats.ext_python_stats import ExtPythonStats
@@ -23,12 +24,10 @@ def main(path="", report_file=""):
     Returns:
         None.
     """
-    try:
-        stats = ExtPythonStats(path)
-        metrics_report_list = stats.report()
-        stats.print(report_file, metrics_report_list)
-    except Exception as e:
-        print(f"Got an exception here: {e}")
+    warnings.filterwarnings("ignore", category=SyntaxWarning)
+    stats = ExtPythonStats(path)
+    metrics_report_list = stats.report()
+    stats.print(report_file, metrics_report_list)
 
 
 if __name__ == "__main__":

@@ -132,7 +132,7 @@ class TestMaintainabilityMetrics:
         test for counting number of funcs and methods without docsting in an empty file
         """
         assert maintainability_metrics.\
-    _MaintainabilityMetrics__count_number_of_functions_or_methods_without_docstrings\
+    count_number_of_functions_or_methods_without_docstrings\
         ([empty_file_ast]) == 0
 
     def test_count_number_of_functions_or_methods_without_docstrings_present(self,\
@@ -143,7 +143,7 @@ class TestMaintainabilityMetrics:
         """
         asts = [function_with_docstring_ast, function_without_docstring_ast]
         assert maintainability_metrics.\
-    _MaintainabilityMetrics__count_number_of_functions_or_methods_without_docstrings\
+    count_number_of_functions_or_methods_without_docstrings\
             (asts) == 1
 
     def test_count_number_of_functions_or_methods_without_typing_empty(self,\
@@ -152,7 +152,7 @@ class TestMaintainabilityMetrics:
         test for counting number of funcs and methods without typing in an empty file
         """
         assert maintainability_metrics.\
-    _MaintainabilityMetrics__count_number_of_functions_or_methods_without_typing\
+    count_number_of_functions_or_methods_without_typing\
         ([empty_file_ast]) == 0
 
     def test_count_number_of_functions_or_methods_without_typing_present(self, \
@@ -162,7 +162,7 @@ class TestMaintainabilityMetrics:
         """
         asts = [function_with_typing_ast, function_without_typing_ast]
         assert maintainability_metrics.\
-        _MaintainabilityMetrics__count_number_of_functions_or_methods_without_typing\
+        count_number_of_functions_or_methods_without_typing\
             (asts) == 1
 
     def test_count_number_of_context_managers_empty(self, maintainability_metrics, empty_file_ast):
@@ -170,7 +170,7 @@ class TestMaintainabilityMetrics:
         test for counting a number of context managers in an empty file
         """
         assert maintainability_metrics.\
-        _MaintainabilityMetrics__count_number_of_context_managers([empty_file_ast]) == 0
+        count_number_of_context_managers([empty_file_ast]) == 0
 
     def test_count_number_of_context_managers_present(self, \
                                                     maintainability_metrics, context_manager_ast):
@@ -178,7 +178,7 @@ class TestMaintainabilityMetrics:
         test for counting a number of context managers in an basic file
         """
         assert maintainability_metrics.\
-        _MaintainabilityMetrics__count_number_of_context_managers([context_manager_ast]) == 1
+        count_number_of_context_managers([context_manager_ast]) == 1
 
     def test_count_number_of_handled_exceptions_empty(self,\
                                                 maintainability_metrics, empty_file_ast):
@@ -186,7 +186,7 @@ class TestMaintainabilityMetrics:
         test for counting a number of handled exceptions in an empty file
         """
         assert maintainability_metrics.\
-        _MaintainabilityMetrics__count_number_of_handled_exceptions([empty_file_ast]) == 0
+        count_number_of_handled_exceptions([empty_file_ast]) == 0
 
     def test_count_number_of_handled_exceptions_present(self,\
                                                  maintainability_metrics, try_except_ast):
@@ -194,4 +194,4 @@ class TestMaintainabilityMetrics:
         test for counting a number of handled exceptions in a present file
         """
         assert maintainability_metrics.\
-        _MaintainabilityMetrics__count_number_of_handled_exceptions([try_except_ast]) == 1
+        count_number_of_handled_exceptions([try_except_ast]) == 1

@@ -101,7 +101,7 @@ class TestAverageBasedMetrics:
         Test that the average number of lines per file is 0 when no files are provided.
         """
         result = metrics.\
-            _AverageBasedMetrics__count_average_number_of_lines_per_file\
+            count_average_number_of_lines_per_file\
                 (empty_file_list)
         assert result == 0
 
@@ -110,7 +110,7 @@ class TestAverageBasedMetrics:
         Test the calculation of the average number of lines per file with multiple files.
         """
         result = metrics\
-            ._AverageBasedMetrics__count_average_number_of_lines_per_file\
+            .count_average_number_of_lines_per_file\
                 (multiple_files)
         assert result == (3 + 5) / 2
 
@@ -119,7 +119,7 @@ class TestAverageBasedMetrics:
         Test that the average number of lines per method is 0 when no methods are provided.
         """
         result = metrics\
-            ._AverageBasedMetrics__count_average_number_of_lines_per_method([])
+            .count_average_number_of_lines_per_method([])
         assert result == 0
 
     def test_average_lines_per_method(self, metrics, methods_code):
@@ -130,7 +130,7 @@ class TestAverageBasedMetrics:
         parsed_files = [tree]
 
         result = metrics\
-            ._AverageBasedMetrics__count_average_number_of_lines_per_method(parsed_files)
+            .count_average_number_of_lines_per_method(parsed_files)
         assert result == (4 + 2) / 2
 
     def test_average_methods_per_class_no_classes(self, metrics):
@@ -138,7 +138,7 @@ class TestAverageBasedMetrics:
         Test that the average number of methods per class is 0 when no classes are provided.
         """
         result = metrics.\
-            _AverageBasedMetrics__count_average_number_of_methods_per_class([])
+            count_average_number_of_methods_per_class([])
         assert result == 0
 
     def test_average_methods_per_class_no_methods(self, metrics, classes_code_no_methods):
@@ -149,7 +149,7 @@ class TestAverageBasedMetrics:
         parsed_files = [tree]
 
         result = metrics.\
-            _AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
+            count_average_number_of_methods_per_class(parsed_files)
         assert result == 0
 
     def test_average_methods_per_class(self, metrics, classes_code_with_methods):
@@ -160,7 +160,7 @@ class TestAverageBasedMetrics:
         parsed_files = [tree]
 
         result = metrics\
-            ._AverageBasedMetrics__count_average_number_of_methods_per_class(parsed_files)
+            .count_average_number_of_methods_per_class(parsed_files)
         assert result == (2 + 3) / 2
 
     def test_average_params_no_functions(self, metrics):
@@ -169,7 +169,7 @@ class TestAverageBasedMetrics:
         per function/method is 0 when no functions are provided.
         """
         result = metrics\
-            ._AverageBasedMetrics__count_average_number_of_params_per_method_or_function([])
+            .count_average_number_of_params_per_method_or_function([])
         assert result == 0
 
     def test_average_params_per_method_no_params(self, metrics, functions_code_no_params):
@@ -181,7 +181,7 @@ class TestAverageBasedMetrics:
         parsed_files = [tree]
 
         result = metrics\
-        ._AverageBasedMetrics__count_average_number_of_params_per_method_or_function(parsed_files)
+        .count_average_number_of_params_per_method_or_function(parsed_files)
         assert result == 0
 
     def test_average_params_per_method(self, metrics, functions_code_with_params):
@@ -192,5 +192,5 @@ class TestAverageBasedMetrics:
         parsed_files = [tree]
 
         result = metrics\
-        ._AverageBasedMetrics__count_average_number_of_params_per_method_or_function(parsed_files)
+        .count_average_number_of_params_per_method_or_function(parsed_files)
         assert result == (2 + 4) / 2

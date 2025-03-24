@@ -6,6 +6,7 @@ from typing import List, Dict
 from pathlib import Path
 import ast
 from datetime import datetime
+import sys
 
 import xml.etree.ElementTree as ET
 import xml.dom.minidom
@@ -67,7 +68,12 @@ class ExtPythonStats:
         for py_file_path in self.py_files:
             with open(py_file_path, "r", encoding="utf-8") as file:
                 code = file.read()
-            self.parsed_py_files.append(ast.parse(code))
+
+            try:
+                self.parsed_py_files.append(ast.parse(code))
+            except SyntaxError:
+                print(f"Unable to parse presented py file: {py_file_path}")
+                sys.exit()
 
     @classmethod
     def get_metrics_list(cls) -> List[str]:

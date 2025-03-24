@@ -9,8 +9,9 @@ class ProjectMetrics(ABC):
     """
     Abstract class for metrics or lists of metrics
     """
+    @classmethod
     @abstractmethod
-    def value(self, parsed_py_files: List) -> Dict[str, Any]:
+    def value(cls, *args) -> Dict[str, Any]:
         """
         Abstract method for a single group of metrics
 
@@ -18,8 +19,9 @@ class ProjectMetrics(ABC):
             Dict: listed results of each metric in a groop
         """
 
+    @staticmethod
     @abstractmethod
-    def available_metrics(self) -> List[str]:
+    def available_metrics() -> List[str]:
         """
         Abstract method to present a list of avaliable metrics in a certain group
 

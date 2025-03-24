@@ -78,7 +78,7 @@ class TestProjectFileStructureMetrics:
         Tests for depth of an empty tree
         """
         assert maintainability_metrics.\
-        _ProjectFileStructureMetrics__get_depth_of_the_project_file_system_tree\
+        get_depth_of_the_project_file_system_tree\
             (empty_parsed_files, Path(tmp_path)) == 0
 
     def test_get_depth_of_the_project_file_system_tree_basic(self, three_level_repo_tree,\
@@ -87,5 +87,5 @@ class TestProjectFileStructureMetrics:
         Tests for depth of an 3-level tree
         """
         assert maintainability_metrics.\
-            _ProjectFileStructureMetrics__get_depth_of_the_project_file_system_tree\
+            get_depth_of_the_project_file_system_tree\
                 (three_level_repo_tree, Path(tmp_path)) == 3

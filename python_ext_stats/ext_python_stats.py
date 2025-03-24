@@ -2,36 +2,36 @@
 Module for analyzing Python repositories and generating metrics reports.
 """
 
-from typing import List, Dict
-from pathlib import Path
+# Стандартные библиотеки (группа 1)
 import ast
-from datetime import datetime
 import sys
-
-import xml.etree.ElementTree as ET
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List
 import xml.dom.minidom
+import xml.etree.ElementTree as ET
 
-from python_ext_stats.metrics.project_metrics import ProjectMetrics
+from python_ext_stats.config import VENV_DIRS
+from python_ext_stats.metrics.average_based_metrics import AverageBasedMetrics
+from python_ext_stats.metrics.CBO_metric import CBOMetric
+from python_ext_stats.metrics.class_metrics import ClassMetrics
+from python_ext_stats.metrics.code_complexity_and_quality_metrics import (
+    CodeComplexityAndQualityMetrics,
+)
 from python_ext_stats.metrics.code_structure_metrics import CodeStructuresMetrics
 from python_ext_stats.metrics.dependency_and_coupling_metrics import (
     DependencyAndCouplingMetrics,
 )
-from python_ext_stats.metrics.CBO_metric import CBOMetric
+from python_ext_stats.metrics.maintainability_metrics import MaintainabilityMetrics
 from python_ext_stats.metrics.project_file_structure_metrics import (
     ProjectFileStructureMetrics,
 )
-from python_ext_stats.metrics.average_based_metrics import AverageBasedMetrics
-from python_ext_stats.metrics.maintainability_metrics import MaintainabilityMetrics
-from python_ext_stats.metrics.class_metrics import ClassMetrics
+from python_ext_stats.metrics.project_metrics import ProjectMetrics
 from python_ext_stats.metrics.readability_and_formatting_metrics import (
     ReadabilityAndFormattingMetrics,
 )
-from python_ext_stats.metrics.code_complexity_and_quality_metrics import (
-    CodeComplexityAndQualityMetrics,
-)
 
 from docs.metrics_list import metrics_list
-from python_ext_stats.config import VENV_DIRS
 
 
 class ExtPythonStats:

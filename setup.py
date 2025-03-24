@@ -1,3 +1,7 @@
+"""
+Setup for CLi usage
+"""
+
 from setuptools import setup, find_packages
 
 setup(

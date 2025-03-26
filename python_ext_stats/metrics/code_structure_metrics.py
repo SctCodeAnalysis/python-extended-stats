@@ -2,6 +2,7 @@
 Module that specifies code structure metrics
 """
 from typing import Dict, Any, List
+from pathlib import Path
 import ast
 
 from python_ext_stats.metrics.project_metrics import ProjectMetrics
@@ -12,7 +13,8 @@ class CodeStructuresMetrics(ProjectMetrics):
     Class for code structure metrics
     """
     @classmethod
-    def value(cls, parsed_py_files: List) -> Dict[str, Any]:
+    def value(cls, parsed_py_files: List = None, py_files: List = None,
+              all_files: List = None, repo_path: Path = None) -> Dict[str, Any]:
         """
         Calculates all code ctructures metrics and returns a dict filled with them
 

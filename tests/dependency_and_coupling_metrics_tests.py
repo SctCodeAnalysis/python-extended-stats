@@ -61,6 +61,7 @@ class TestDependencyAndCouplingMetrics:
     """
     Tests for dependency and coupling metrics
     """
+
     def test_count_number_of_libs_no_imports(self, metrics, empty_parsed_files):
         """
         Test that the number of libraries is zero when no imports are present.

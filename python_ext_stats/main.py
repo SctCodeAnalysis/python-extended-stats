@@ -2,16 +2,20 @@
 This module is the main script to activate the python-ext-stats
 """
 import warnings
+import sys
 import click
 
 from python_ext_stats.ext_python_stats import ExtPythonStats
 
 
+sys.setrecursionlimit(5000)
+
+
 @click.command()
 @click.option('--path', '-p', required=True, help='Path to the repository.')
-@click.option('--report_file', '-r', required=True, help='Name of the report file.',
+@click.option('--report', '-r', required=True, help='Name of the report file.',
                default="result_python_extended_stats.xml")
-def main(path="", report_file=""):
+def main(path="", report=""):
     """
     Main function of the project. Using an inserted path to the repository
     and a resultant XML filename,
@@ -27,7 +31,7 @@ def main(path="", report_file=""):
     warnings.filterwarnings("ignore", category=SyntaxWarning)
     stats = ExtPythonStats(path)
     metrics_report_list = stats.report()
-    stats.print(report_file, metrics_report_list)
+    stats.print(report, metrics_report_list)
 
 
 if __name__ == "__main__":

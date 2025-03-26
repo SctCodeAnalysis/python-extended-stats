@@ -7,7 +7,7 @@ from pathlib import Path
 import ast
 import pytest
 
-from python_ext_stats.metrics.CBO_metric import CBOMetric
+from python_ext_stats.metrics.cbo_metric import CBOMetric
 
 
 PROJECT_ROOT = Path(__file__).parent.parent

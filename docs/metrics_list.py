@@ -3,7 +3,7 @@ A list of presented metrics as strings
 """
 
 from python_ext_stats.metrics.average_based_metrics import AverageBasedMetrics
-from python_ext_stats.metrics.CBO_metric import CBOMetric
+from python_ext_stats.metrics.cbo_metric import CBOMetric
 from python_ext_stats.metrics.class_metrics import ClassMetrics
 from python_ext_stats.metrics.code_complexity_and_quality_metrics\
     import CodeComplexityAndQualityMetrics

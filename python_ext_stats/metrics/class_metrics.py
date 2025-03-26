@@ -3,6 +3,7 @@ This module provides class metrics
 """
 
 from typing import Dict, Any, List
+from pathlib import Path
 import ast
 
 from python_ext_stats.metrics.project_metrics import ProjectMetrics
@@ -13,7 +14,8 @@ class ClassMetrics(ProjectMetrics):
     Class for class-metrics
     """
     @classmethod
-    def value(cls, parsed_py_files: List) -> Dict[str, Any]:
+    def value(cls, parsed_py_files: List = None, py_files: List = None,
+              all_files: List = None, repo_path: Path = None) -> Dict[str, Any]:
         """
         Calculates all class-metrics and returns a dict filled with them
 
@@ -78,7 +80,7 @@ class ClassMetrics(ProjectMetrics):
     @staticmethod
     def calculate_attribute_hiding_factor(parsed_py_files: List) -> float:
         """
-        Calculates  the ratio of private attributes to total attributess from 0 to 1 as a float
+        Calculates the ratio of private attributes to total attributess from 0 to 1 as a float
          
         Returns:
             float: calculated attribute-hiding factor

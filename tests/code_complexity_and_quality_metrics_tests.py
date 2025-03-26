@@ -50,6 +50,7 @@ def used_function(x):
 """
 
 
+# pylint: disable=W0621
 @pytest.fixture
 def temp_py_files(tmp_path: Path,
                   sample_python_code_1: str,
@@ -71,6 +72,7 @@ def temp_py_files(tmp_path: Path,
     return file_paths
 
 
+# pylint: disable=W0621
 @pytest.fixture
 def parsed_py_files(temp_py_files: List[str]) -> List[ast.AST]:
     """

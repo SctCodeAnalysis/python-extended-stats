@@ -22,7 +22,6 @@ jobs:
 
       - name: Run PyLint
         run: pylint ./python_ext_stats --ignore=venv
-
   test:
     name: Run Tests
     runs-on: ubuntu-latest

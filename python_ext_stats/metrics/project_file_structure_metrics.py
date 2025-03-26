@@ -13,7 +13,8 @@ class ProjectFileStructureMetrics(ProjectMetrics):
     Class for project file structure metrics
     """
     @classmethod
-    def value(cls, all_files: List, repo_path: Path) -> Dict[str, Any]:
+    def value(cls, parsed_py_files: List = None, py_files: List = None,
+              all_files: List = None, repo_path: Path = None) -> Dict[str, Any]:
         """
         Calculates all project file structure metrics and returns a dict filled with them
 

@@ -125,6 +125,7 @@ class TestCodeStructureMetrics:
     """
     Test suite for CodeStructuresMetrics methods.
     """
+
     def test_count_classes_empty(self, metrics, empty_code):
         """Test that an empty code string contains zero classes."""
         tree = parse_code(empty_code)

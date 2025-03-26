@@ -3,6 +3,7 @@ This module provides dependency and coupling metrics
 """
 
 from typing import Dict, Any, List
+from pathlib import Path
 import ast
 
 from python_ext_stats.metrics.project_metrics import ProjectMetrics
@@ -13,7 +14,8 @@ class DependencyAndCouplingMetrics(ProjectMetrics):
     Class for dependency and coupling metrics
     """
     @classmethod
-    def value(cls, parsed_py_files: List, all_files: List) -> Dict[str, Any]:
+    def value(cls, parsed_py_files: List = None, py_files: List = None,
+              all_files: List = None, repo_path: Path = None) -> Dict[str, Any]:
         """
         Calculates all dependency and coupling metrics and returns a dict filled with them
 

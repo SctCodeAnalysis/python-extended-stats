@@ -3,7 +3,9 @@ This module privedes specific code complexity and quality netrics
 """
 
 from typing import Dict, Any, List, Set
+from pathlib import Path
 import ast
+import sys
 from radon.metrics import h_visit
 import vulture
 
@@ -15,7 +17,8 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
     Class for code complexity and quality metrics
     """
     @classmethod
-    def value(cls, parsed_py_files: List, py_files: List) -> Dict[str, Any]:
+    def value(cls, parsed_py_files: List = None, py_files: List = None,
+              all_files: List = None, repo_path: Path = None) -> Dict[str, Any]:
         """
         Calculates all code complexity and quality metrics and returns a dict filled with them
 
@@ -70,7 +73,11 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
             for node in ast.walk(tree):
                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                     visitor = CyclomaticComplexityVisitor()
-                    visitor.visit(node)
+                    try:
+                        visitor.visit(node)
+                    except RecursionError:
+                        print("ERROR RECURSION in ", file_path)
+                        sys.exit()
                     file_complexities[node.name] = visitor.complexity
 
             results[file_path] = file_complexities
@@ -129,6 +136,7 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                 """
                 self.attributes: Set[str] = set()
 
+            # pylint: disable=C0103
             def visit_Attribute(self, node: ast.Attribute) -> None:
                 """
                 method to specify behaviour while visiting an Attribute
@@ -196,7 +204,7 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
         Detects dead code for each file in a presented repo
 
         Returns:
-            List: lines of unsued code
+            List: pieces of unsued code
         """
 
         v = vulture.Vulture()
@@ -215,6 +223,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         """
         self.complexity = 1
 
+    # pylint: disable=C0103
     def visit_If(self, node):
         """
         method to visit IF
@@ -222,6 +231,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_For(self, node):
         """
         method to visit FOR
@@ -229,6 +239,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_AsyncFor(self, node):
         """
         method to visit ASYNCFOR
@@ -236,6 +247,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_While(self, node):
         """
         method to visit WHILE
@@ -243,6 +255,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_With(self, node):
         """
         method to visit WITH
@@ -250,6 +263,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_AsyncWith(self, node):
         """
         method to visit AsyncWith
@@ -257,6 +271,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_ExceptHandler(self, node):
         """
         method to visit EXCEPTHANDLER
@@ -264,6 +279,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_BoolOp(self, node):
         """
         method to visit BOOL OP.
@@ -271,6 +287,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += len(node.values) - 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_IfExp(self, node):
         """
         method to visit IFExp
@@ -278,6 +295,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_comprehension(self, node):
         """
         method to visit comprehension
@@ -285,6 +303,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += len(node.ifs)
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_Raise(self, node):
         """
         method to visit RAISE
@@ -292,6 +311,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_Assert(self, node):
         """
         method to visit ASSERT

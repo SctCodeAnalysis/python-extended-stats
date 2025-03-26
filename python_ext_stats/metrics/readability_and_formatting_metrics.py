@@ -12,7 +12,7 @@ class ReadabilityAndFormattingMetrics:
     Class for readability and formatting metrics
     """
     @classmethod
-    def value(cls, parsed_py_files: List, py_files: List) -> Dict[str, Any]:
+    def value(cls, parsed_py_files: List = None, py_files: List = None) -> Dict[str, Any]:
         """
         Calculates all readability and formatting metrics and returns a dict filled with them
 

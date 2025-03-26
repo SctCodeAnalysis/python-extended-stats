@@ -13,7 +13,7 @@ import xml.etree.ElementTree as ET
 
 from python_ext_stats.config import VENV_DIRS
 from python_ext_stats.metrics.average_based_metrics import AverageBasedMetrics
-from python_ext_stats.metrics.CBO_metric import CBOMetric
+from python_ext_stats.metrics.cbo_metric import CBOMetric
 from python_ext_stats.metrics.class_metrics import ClassMetrics
 from python_ext_stats.metrics.code_complexity_and_quality_metrics import (
     CodeComplexityAndQualityMetrics,
@@ -138,44 +138,46 @@ class ExtPythonStats:
         result_metrics_dict = {}
         result_metrics_dict = {
             **result_metrics_dict,
-            **CodeStructuresMetrics().value(self.parsed_py_files),
+            **CodeStructuresMetrics().value(parsed_py_files=self.parsed_py_files),
         }
         result_metrics_dict = {
             **result_metrics_dict,
             **DependencyAndCouplingMetrics().value(
-                self.parsed_py_files, self.all_files
+                parsed_py_files=self.parsed_py_files, all_files=self.all_files
             ),
         }
         result_metrics_dict = {
             **result_metrics_dict,
-            **CBOMetric().value(self.parsed_py_files),
+            **CBOMetric().value(parsed_py_files=self.parsed_py_files),
         }
         result_metrics_dict = {
             **result_metrics_dict,
-            **ProjectFileStructureMetrics().value(self.all_files, self.repo_path),
+            **ProjectFileStructureMetrics().value(\
+                all_files=self.all_files, repo_path=self.repo_path),
         }
         result_metrics_dict = {
             **result_metrics_dict,
-            **AverageBasedMetrics().value(self.parsed_py_files, self.py_files),
+            **AverageBasedMetrics().value(\
+                parsed_py_files=self.parsed_py_files, py_files=self.py_files),
         }
         result_metrics_dict = {
             **result_metrics_dict,
-            **MaintainabilityMetrics().value(self.parsed_py_files),
+            **MaintainabilityMetrics().value(parsed_py_files=self.parsed_py_files),
         }
         result_metrics_dict = {
             **result_metrics_dict,
-            **ClassMetrics().value(self.parsed_py_files),
+            **ClassMetrics().value(parsed_py_files=self.parsed_py_files),
         }
         result_metrics_dict = {
             **result_metrics_dict,
             **ReadabilityAndFormattingMetrics().value(
-                self.parsed_py_files, self.py_files
+                parsed_py_files=self.parsed_py_files, py_files=self.py_files
             ),
         }
         result_metrics_dict = {
             **result_metrics_dict,
             **CodeComplexityAndQualityMetrics().value(
-                self.parsed_py_files, self.py_files
+                parsed_py_files=self.parsed_py_files, py_files=self.py_files
             ),
         }
         return result_metrics_dict

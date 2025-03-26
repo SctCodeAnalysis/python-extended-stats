@@ -1,6 +1,7 @@
 """Module for calculating average-based metrics in Python projects."""
 
 from typing import Dict, Any, List
+from pathlib import Path
 import ast
 
 from python_ext_stats.metrics.project_metrics import ProjectMetrics
@@ -11,7 +12,8 @@ class AverageBasedMetrics(ProjectMetrics):
     Class for average-based metrics
     """
     @classmethod
-    def value(cls, parsed_py_files: List, py_files: List) -> Dict[str, Any]:
+    def value(cls, parsed_py_files: List = None, py_files: List = None,
+              all_files: List = None, repo_path: Path = None) -> Dict[str, Any]:
         """
         Calculates all average-based metrics and returns a list filled with them
 

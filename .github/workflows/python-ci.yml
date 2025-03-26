@@ -21,7 +21,7 @@ jobs:
           pip install pylint
 
       - name: Run PyLint
-        run: pylint . --ignore=venv --disable=C0103,W0221,W0621
+        run: pylint ./python_ext_stats --ignore=venv
 
   test:
     name: Run Tests

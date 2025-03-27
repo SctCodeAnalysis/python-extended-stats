@@ -144,8 +144,10 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                 if isinstance(node.value, ast.Name) and node.value.id == "self":
                     self.attributes.add(node.attr)
                 self.generic_visit(node)
-            
+
+            # pylint: disable=C0103
             def visit_Assign(self, node: ast.Assign) -> None:
+                """assign visit method reinterpretation"""
                 for target in node.targets:
                     if isinstance(target, ast.Attribute):
                         if isinstance(target.value, ast.Name) and target.value.id == "self":
@@ -230,14 +232,23 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         """
         self.complexity = 1
 
+    # pylint: disable=C0103
     def visit_If(self, node):
+        """
+        method to visit If
+        """
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_Else(self, node):
+        """
+        method to visit Else
+        """
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_For(self, node):
         """
         method to visit FOR
@@ -245,6 +256,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_AsyncFor(self, node):
         """
         method to visit ASYNCFOR
@@ -252,6 +264,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_While(self, node):
         """
         method to visit WHILE
@@ -259,6 +272,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_With(self, node):
         """
         method to visit WITH
@@ -266,6 +280,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_AsyncWith(self, node):
         """
         method to visit AsyncWith
@@ -273,6 +288,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_ExceptHandler(self, node):
         """
         method to visit EXCEPTHANDLER
@@ -280,6 +296,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_BoolOp(self, node):
         """
         method to visit BOOL OP.
@@ -287,6 +304,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += len(node.values) - 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_IfExp(self, node):
         """
         method to visit IFExp
@@ -294,6 +312,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_comprehension(self, node):
         """
         method to visit comprehension
@@ -301,6 +320,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += len(node.ifs)
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_Raise(self, node):
         """
         method to visit RAISE
@@ -308,6 +328,7 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
+    # pylint: disable=C0103
     def visit_Assert(self, node):
         """
         method to visit ASSERT

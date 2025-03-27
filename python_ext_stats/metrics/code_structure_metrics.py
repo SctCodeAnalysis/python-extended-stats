@@ -142,10 +142,10 @@ class CodeStructuresMetrics(ProjectMetrics):
                             end_line = node.end_lineno
                         else:
                             end_line = start_line
-                        
+
                         method_length = end_line - start_line
                         max_length = max(max_length, method_length)
-                    
+
                     except AttributeError as e:
                         print(f"Error processing method: {e}")
                         continue

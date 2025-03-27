@@ -1,8 +1,6 @@
 """
 Module for analyzing Python repositories and generating metrics reports.
 """
-
-# Стандартные библиотеки (группа 1)
 import ast
 import sys
 from datetime import datetime
@@ -31,7 +29,7 @@ from python_ext_stats.metrics.readability_and_formatting_metrics import (
     ReadabilityAndFormattingMetrics,
 )
 
-from docs.metrics_list import metrics_list
+from docs.metrics_list import metrics_list as ml
 
 
 class ExtPythonStats:
@@ -41,7 +39,7 @@ class ExtPythonStats:
     Provides metrics described in docs/metrics.tex according to the repos.
     """
 
-    __metrics: List[str] = metrics_list.copy()
+    __metrics: List[str] = ml.copy()
 
     def __init__(self, repo_path: str):
         """

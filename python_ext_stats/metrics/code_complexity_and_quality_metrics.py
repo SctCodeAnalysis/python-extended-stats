@@ -6,7 +6,7 @@ from typing import Dict, Any, List, Set
 from pathlib import Path
 import ast
 import sys
-from radon.metrics import h_visit
+from radon.visitors import HalsteadVisitor
 import vulture
 
 from python_ext_stats.metrics.project_metrics import ProjectMetrics
@@ -98,12 +98,12 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
             with open(py_file, "r", encoding="utf-8") as file:
                 code = file.read()
 
-            analysis = h_visit(code)
+            visitor = HalsteadVisitor.from_code(code)
             metrics = {
-                "n1": analysis.total.h1,
-                "n2": analysis.total.h2,
-                "N1": analysis.total.N1,
-                "N2": analysis.total.N2,
+                "n1": visitor.distinct_operators,
+                "n2": visitor.distinct_operands,
+                "N1": visitor.operators,
+                "N2": visitor.operands
             }
             halstead_metrics[py_file] = metrics
 
@@ -143,6 +143,13 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                 """
                 if isinstance(node.value, ast.Name) and node.value.id == "self":
                     self.attributes.add(node.attr)
+                self.generic_visit(node)
+            
+            def visit_Assign(self, node: ast.Assign) -> None:
+                for target in node.targets:
+                    if isinstance(target, ast.Attribute):
+                        if isinstance(target.value, ast.Name) and target.value.id == "self":
+                            self.attributes.add(target.attr)
                 self.generic_visit(node)
 
         def run_methods_lcom(methods):
@@ -223,15 +230,14 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         """
         self.complexity = 1
 
-    # pylint: disable=C0103
     def visit_If(self, node):
-        """
-        method to visit IF
-        """
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
+    def visit_Else(self, node):
+        self.complexity += 1
+        self.generic_visit(node)
+
     def visit_For(self, node):
         """
         method to visit FOR
@@ -239,7 +245,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_AsyncFor(self, node):
         """
         method to visit ASYNCFOR
@@ -247,7 +252,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_While(self, node):
         """
         method to visit WHILE
@@ -255,7 +259,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_With(self, node):
         """
         method to visit WITH
@@ -263,7 +266,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_AsyncWith(self, node):
         """
         method to visit AsyncWith
@@ -271,7 +273,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_ExceptHandler(self, node):
         """
         method to visit EXCEPTHANDLER
@@ -279,7 +280,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_BoolOp(self, node):
         """
         method to visit BOOL OP.
@@ -287,7 +287,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += len(node.values) - 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_IfExp(self, node):
         """
         method to visit IFExp
@@ -295,7 +294,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_comprehension(self, node):
         """
         method to visit comprehension
@@ -303,7 +301,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += len(node.ifs)
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_Raise(self, node):
         """
         method to visit RAISE
@@ -311,7 +308,6 @@ class CyclomaticComplexityVisitor(ast.NodeVisitor):
         self.complexity += 1
         self.generic_visit(node)
 
-    # pylint: disable=C0103
     def visit_Assert(self, node):
         """
         method to visit ASSERT

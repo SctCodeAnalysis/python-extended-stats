@@ -13,7 +13,6 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.append(str(PROJECT_ROOT))
 
 
-
 @pytest.fixture
 def empty_parsed_files():
     """Fixture for an empty list of parsed files."""

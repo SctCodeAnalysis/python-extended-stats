@@ -25,6 +25,15 @@ class TestReadabilityAndFormattingMetrics:
         file2 = tmp_path / "file2.py"
         file2.write_text("print('hello')\n")
         return [file1, file2]
+    
+    @pytest.fixture
+    def duplicate_files2(self, tmp_path):
+        """Create two files with identical content."""
+        file1 = tmp_path / "file1.py"
+        file1.write_text("print('hello')\nmeme=5")
+        file2 = tmp_path / "file2.py"
+        file2.write_text("print('hello')\nhehe=6")
+        return [file1, file2]
 
     @pytest.fixture
     def mixed_length_files(self, tmp_path):
@@ -80,6 +89,12 @@ def my_function():
         """Test duplicate line percentage calculation."""
         result = metrics.\
             calculate_duplication_percentage(duplicate_files)
+        assert result == 100.0
+
+    def test_duplication_percentage(self, metrics, duplicate_files2):
+        """Test duplicate line percentage calculation."""
+        result = metrics.\
+            calculate_duplication_percentage(duplicate_files2)
         assert result == 50.0
 
     def test_max_line_length(self, metrics, mixed_length_files):

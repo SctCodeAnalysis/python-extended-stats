@@ -74,6 +74,9 @@ def context_manager_ast() -> ast.Module:
     code = """
 with open('file.txt', 'r') as f:
     data = f.read()
+
+with open("") as f:
+    pass
     """
     return parse_code_to_ast(code)
 
@@ -178,7 +181,7 @@ class TestMaintainabilityMetrics:
         test for counting a number of context managers in an basic file
         """
         assert maintainability_metrics.\
-        count_number_of_context_managers([context_manager_ast]) == 1
+        count_number_of_context_managers([context_manager_ast]) == 2
 
     def test_count_number_of_handled_exceptions_empty(self,\
                                                 maintainability_metrics, empty_file_ast):

@@ -78,7 +78,7 @@ class ReadabilityAndFormattingMetrics:
         if total_lines == 0:
             return 0.0
 
-        return (duplicated_lines / total_lines) * 100
+        return (duplicated_lines / total_lines) * 100 * 2
 
     @staticmethod
     def calculate_maximum_line_length(py_files: List) -> int:

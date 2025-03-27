@@ -129,7 +129,7 @@ class TestClassMetrics:
                                                    simple_class_module: ast.Module):
         """
         Test CBO calculation for class without dependencies.
-        Expected MHF: 0.5
+        Expected AHF: 0.5
         """
         result = classmetrics.\
             calculate_attribute_hiding_factor([simple_class_module])

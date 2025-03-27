@@ -88,7 +88,7 @@ class AverageBasedMetrics(ProjectMetrics):
                             n.lineno for n in ast.walk(node)
                             if hasattr(n, 'lineno')
                         )
-                        total_lines += (end_line - start_line + 1)
+                        total_lines += (end_line - start_line)
                         total_methods += 1
 
         return total_lines / total_methods if total_methods > 0 else 0

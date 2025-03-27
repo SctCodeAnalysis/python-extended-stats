@@ -131,7 +131,7 @@ class TestAverageBasedMetrics:
 
         result = metrics\
             .count_average_number_of_lines_per_method(parsed_files)
-        assert result == (4 + 2) / 2
+        assert result == (3 + 1) / 2
 
     def test_average_methods_per_class_no_classes(self, metrics):
         """

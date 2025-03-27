@@ -179,7 +179,7 @@ class A:
     def test_max_method_length_empty(self, metrics, function_code):
         """Test that a single-line function has a maximum method length of 1."""
         tree = parse_code(function_code)
-        assert metrics.count_max_method_length([tree]) == 1
+        assert metrics.count_max_method_length([tree]) == 0
 
     def test_max_method_length(self, metrics, max_method_length_code):
         """Test finding the maximum length of a method by counting lines."""

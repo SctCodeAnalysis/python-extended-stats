@@ -127,23 +127,28 @@ class CodeStructuresMetrics(ProjectMetrics):
         return max_params
 
     @staticmethod
-    def count_max_method_length(parsed_py_files: Dict) -> int:
+    def count_max_method_length(parsed_py_files: List) -> int:
         """
-        Finds the maximum length (in lines) of a method across all the parsed Python files.
-
-        Returns:
-            int: The maximum length (in lines) of any method in the parsed files.
+        Counts max method length across all py files
         """
         max_length = 0
 
         for tree in parsed_py_files:
             for node in ast.walk(tree):
-                if isinstance(node, ast.FunctionDef):
-                    if node.body:
-                        start_line = node.body[0].lineno
-                        end_line = node.body[-1].lineno
-                        length = end_line - start_line + 1
-                        max_length = max(max_length, length)
+                if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                    try:
+                        start_line = node.lineno
+                        if hasattr(node, 'end_lineno'):
+                            end_line = node.end_lineno
+                        else:
+                            end_line = start_line
+                        
+                        method_length = end_line - start_line
+                        max_length = max(max_length, method_length)
+                    
+                    except AttributeError as e:
+                        print(f"Error processing method: {e}")
+                        continue
 
         return max_length
 

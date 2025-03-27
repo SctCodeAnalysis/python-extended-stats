@@ -23,7 +23,7 @@ def main(path="", report=""):
 
     Args:
         path (str): Path to the repository to analyse.
-        xml_file_name (str): Name for a resultant XML file .
+        report (str): Name for a resultant XML file .
 
     Returns:
         None.

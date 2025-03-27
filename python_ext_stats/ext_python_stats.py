@@ -76,7 +76,7 @@ class ExtPythonStats:
                 sys.exit()
 
     @classmethod
-    def get_metrics_list(cls) -> List[str]:
+    def metrics_list(cls) -> List[str]:
         """
         Provides a list of available metrics.
 

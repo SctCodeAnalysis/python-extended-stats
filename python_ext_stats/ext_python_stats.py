@@ -4,6 +4,7 @@ Module for analyzing Python repositories and generating metrics reports.
 import ast
 import sys
 from datetime import datetime
+import time
 from pathlib import Path
 from typing import Dict, List
 import xml.dom.minidom
@@ -108,7 +109,10 @@ class ExtPythonStats:
             None.
         """
         root = ET.Element("report")
+        worktime = report_data["worktime"]
+        del report_data["worktime"]
 
+        ET.SubElement(root, "worktime").text = str(round(worktime, 1)) + " secs"
         ET.SubElement(root, "report-time").text = datetime.now().strftime("%d.%m.%Y")
         ET.SubElement(root, "repository-path").text = str(self.repo_path)
 
@@ -134,6 +138,8 @@ class ExtPythonStats:
             Dict: Metrics dict
         """
         result_metrics_dict = {}
+        result_metrics_dict["worktime"] = time.time()
+
         result_metrics_dict = {
             **result_metrics_dict,
             **CodeStructuresMetrics().value(parsed_py_files=self.parsed_py_files),
@@ -178,4 +184,7 @@ class ExtPythonStats:
                 parsed_py_files=self.parsed_py_files, py_files=self.py_files
             ),
         }
+
+        result_metrics_dict["worktime"] = time.time() - result_metrics_dict["worktime"]
+
         return result_metrics_dict

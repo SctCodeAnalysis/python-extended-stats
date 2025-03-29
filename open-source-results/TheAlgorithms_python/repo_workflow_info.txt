@@ -1,0 +1,12 @@
+github url: https://github.com/TheAlgorithms/Python
+worktime: 31 sec
+
+Assumations:
+— The depth 0f 6 in a project filetree shows it's flatness 
+— This project has a large object-oriented architecture based on 304 classes and 1459 methods 
+— Considering the CBO metric we can state that there are some classes preferable to be rewrote
+— Due to a lack of typing and docstring the project support may be truly challenging
+— We can also notice there are very few classes inherited by any others - this may signify that there is very poor abctraction level
+— 14 pass keywords state there is some fork to do in advance
+— However the average cyclomatic complecity looks really fine as for such a massive repo
+— The number of unused elements seem suspecious so somebosy needs to inspect the issue 

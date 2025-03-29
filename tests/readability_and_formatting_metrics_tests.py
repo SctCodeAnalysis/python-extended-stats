@@ -1,7 +1,13 @@
-import pytest
+"""
+This module provides readability and formatting metrics tests
+"""
+
+
 import ast
-from pathlib import Path
-from models.readability_and_formatting_metrics import ReadabilityAndFormattingMetrics
+import pytest
+
+from python_ext_stats.metrics.readability_and_formatting_metrics\
+      import ReadabilityAndFormattingMetrics
 
 class TestReadabilityAndFormattingMetrics:
     """Test suite for ReadabilityAndFormattingMetrics class."""
@@ -18,6 +24,15 @@ class TestReadabilityAndFormattingMetrics:
         file1.write_text("print('hello')\n")
         file2 = tmp_path / "file2.py"
         file2.write_text("print('hello')\n")
+        return [file1, file2]
+    
+    @pytest.fixture
+    def duplicate_files2(self, tmp_path):
+        """Create two files with identical content."""
+        file1 = tmp_path / "file1.py"
+        file1.write_text("print('hello')\nmeme=5")
+        file2 = tmp_path / "file2.py"
+        file2.write_text("print('hello')\nhehe=6")
         return [file1, file2]
 
     @pytest.fixture
@@ -72,39 +87,52 @@ def my_function():
 
     def test_duplication_percentage(self, metrics, duplicate_files):
         """Test duplicate line percentage calculation."""
-        result = metrics._ReadabilityAndFormattingMetrics__calculate_duplication_percentage(duplicate_files)
+        result = metrics.\
+            calculate_duplication_percentage(duplicate_files)
+        assert result == 100.0
+
+    def test_duplication_percentage(self, metrics, duplicate_files2):
+        """Test duplicate line percentage calculation."""
+        result = metrics.\
+            calculate_duplication_percentage(duplicate_files2)
         assert result == 50.0
 
     def test_max_line_length(self, metrics, mixed_length_files):
         """Test maximum line length detection."""
-        max_length = metrics._ReadabilityAndFormattingMetrics__calculate_maximum_line_length(mixed_length_files)
+        max_length = metrics.\
+            calculate_maximum_line_length(mixed_length_files)
         assert max_length == 4
 
     def test_lines_of_code_count(self, metrics, multi_line_files):
         """Test total lines of code counting."""
-        loc = metrics._ReadabilityAndFormattingMetrics__count_lines_of_code(multi_line_files)
+        loc = metrics.\
+            count_lines_of_code(multi_line_files)
         assert loc == 5
 
     def test_average_line_length(self, metrics, mixed_length_files):
         """Test average line length calculation."""
-        avg = metrics._ReadabilityAndFormattingMetrics__calculate_average_line_length(mixed_length_files)
-        assert avg == 2.0 
+        avg = metrics.\
+            calculate_average_line_length(mixed_length_files)
+        assert avg == 2.0
 
     def test_identifier_lengths(self, metrics, parsed_identifiers):
         """Test average identifier length calculations."""
-        result = metrics._ReadabilityAndFormattingMetrics__calculate_average_identifier_length(parsed_identifiers)
+        result = metrics.\
+        calculate_average_identifier_length(parsed_identifiers)
         assert result['class'] == 7.0
         assert result['method'] == 9.0
         assert result['field'] == 11.0
 
     def test_empty_class_identifiers(self, metrics, parsed_empty_class):
         """Test identifier lengths for empty class."""
-        result = metrics._ReadabilityAndFormattingMetrics__calculate_average_identifier_length(parsed_empty_class)
+        result = metrics.\
+        calculate_average_identifier_length(parsed_empty_class)
         assert result['class'] == 10.0
         assert result['method'] == 0.0
         assert result['field'] == 0.0
 
     def test_pass_keyword_count(self, metrics, parsed_pass_statements):
         """Test pass keyword counting."""
-        count = metrics._ReadabilityAndFormattingMetrics__count_number_pass_keywords(parsed_pass_statements)
+        count = metrics.\
+            count_number_pass_keywords(parsed_pass_statements)
         assert count == 2

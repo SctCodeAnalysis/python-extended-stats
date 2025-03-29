@@ -1,1 +1,0 @@
-VENV_DIRS = {'venv', '.venv', 'env', 'virtualenv'}

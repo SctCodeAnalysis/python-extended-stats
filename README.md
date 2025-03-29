@@ -51,16 +51,17 @@ The stats are exposed as an API as well as exported report (in XML format)
 ```python
 import python_extended_stats as st
 
-stats = ExtPythonStats("path/to/repo")
+stats = st.ExtPythonStats("path/to/repo")
+report = "result_python_extended_stats.xml"
 
 # Print available metrics
-print(stats.list())
+print(stats.metrics_list())
 
-# Print number of classes
-print(stats.metric("ADVANCED_METRIC"))
+# Get calculated metrics as a dict
+metrics_report_list = stats.report()
 
 # Print XML report
-print(stats.as_xml())
+stats.print(report, metrics_report_list)
 ```
 
 ## CLI Usage

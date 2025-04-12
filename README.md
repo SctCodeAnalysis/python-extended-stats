@@ -8,7 +8,7 @@ Base statistics include:
 - LCOM (Lack of Cohesion in Methods)
 - Dead code
 - Duplication Percentage
-- Maximum stripped Line Length
+- Maximum Line Length
 - Lines of Code (LOC)
 - Average Line Length
 - Average Identifier Length
@@ -36,7 +36,7 @@ Base statistics include:
 - CBO (Coupling Between Objects)
 - Number of Files in the Project
 - Depth of the Project File System Tree
-- Average Number of Lines per File
+- Average Number of nonepmty Lines per File
 - Average Number of Lines per Method or Function
 - Average Number of Methods per Class
 - Average Number of Parameters per Method or Function

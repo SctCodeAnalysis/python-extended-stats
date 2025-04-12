@@ -43,6 +43,12 @@ Base statistics include:
 
 The stats are exposed as an API as well as exported report (in XML format)
 
+## Installation
+
+```shell
+\> pip install git+https://github.com/SctCodeAnalysis/python-extended-stats
+```
+
 ## API Usage
 
 ```python

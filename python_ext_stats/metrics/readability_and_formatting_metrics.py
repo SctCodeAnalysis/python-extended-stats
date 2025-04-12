@@ -22,8 +22,8 @@ class ReadabilityAndFormattingMetrics:
         result_metrics = {}
 
         result_metrics["Duplication Percentage"] = cls.calculate_duplication_percentage(py_files)
-        result_metrics["Maximum stripped py Line Length"] =\
-              cls.calculate_maximum_line_length(py_files)
+        result_metrics["Maximum py Line Length"] =\
+               cls.calculate_maximum_line_length(py_files)
         result_metrics["Lines of Code"] = cls.count_lines_of_code(py_files)
         result_metrics["Average Line Length"] = cls.calculate_average_line_length(py_files)
         result_metrics["Average Identifier Length"] = \
@@ -42,7 +42,7 @@ class ReadabilityAndFormattingMetrics:
             List: a list of strings as metrics' names
         """
         return ["Duplication Percentage",
-                "Maximum stripped Line Length",
+                "Maximum Line Length",
                 "Lines of Code",
                 "Average Line Length",
                 "Average Identifier Length",

@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <report>
- <worktime>0.1 secs</worktime>
+ <worktime>0.0 secs</worktime>
  <report-time>13.04.2025</report-time>
  <repository-path>C:\Users\ASUS\python-extended-stats-tests\tests</repository-path>
  <metrics>
@@ -30,9 +30,9 @@
   <metric name="Polymorphism Factor">{'Test': 0.0}</metric>
   <metric name="Depth Of Inheritance Tree">1</metric>
   <metric name="Duplication Percentage">0.0</metric>
-  <metric name="Maximum stripped py Line Length">22</metric>
+  <metric name="Maximum py Line Length">25</metric>
   <metric name="Lines of Code">16</metric>
-  <metric name="Average Line Length">6.541666666666667</metric>
+  <metric name="Average Line Length">10.708333333333334</metric>
   <metric name="Average Identifier Length">{'class': 4.0, 'method': 7.5, 'field': 5.0}</metric>
   <metric name="Number of pass keywords">1</metric>
   <metric name="Cyclomatic Complexity">{WindowsPath('C:/Users/ASUS/python-extended-stats-tests/tests/main.py'): {'long_method': 1, 'help': 1}, WindowsPath('C:/Users/ASUS/python-extended-stats-tests/tests/test.py'): {'testiii': 3}}</metric>

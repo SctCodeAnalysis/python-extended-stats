@@ -96,8 +96,6 @@ class ReadabilityAndFormattingMetrics:
             with open(py_file_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()
 
-                lines = [line.strip() for line in lines if line.strip()]
-
                 for line in lines:
                     max_length = max(max_length, len(line))
 
@@ -117,7 +115,7 @@ class ReadabilityAndFormattingMetrics:
         for py_file_path in py_files:
             with open(py_file_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()
-                lines = [line.strip() for line in lines if line.strip()]
+                lines = [line for line in lines if line.strip()]
                 lines_num += len(lines)
 
         return lines_num
@@ -136,7 +134,7 @@ class ReadabilityAndFormattingMetrics:
         for py_file_path in py_files:
             with open(py_file_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()
-                sum_len += sum(len(line.strip()) for line in lines if line.strip())
+                sum_len += sum(len(line) for line in lines if line.strip())
                 lines_num += len(lines)
 
         return sum_len / lines_num if lines_num else 0.0

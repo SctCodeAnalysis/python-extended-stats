@@ -1,0 +1,43 @@
+<?xml version="1.0" ?>
+<report>
+ <worktime>0.1 secs</worktime>
+ <report-time>13.04.2025</report-time>
+ <repository-path>C:\Users\ASUS\python-extended-stats-tests\tests</repository-path>
+ <metrics>
+  <metric name="Number of Classes">1</metric>
+  <metric name="Number of Methods">2</metric>
+  <metric name="Number of Static Methods">0</metric>
+  <metric name="Maximum Number of Method Parameters">0</metric>
+  <metric name="Maximum Method Length">11</metric>
+  <metric name="Number of Decorators">0</metric>
+  <metric name="Number of Constants in Files">5</metric>
+  <metric name="Number of Libraries">0</metric>
+  <metric name="Number of Extensions in the Project">{'.py'}</metric>
+  <metric name="Coupling Between Objects">{'Test': 0}</metric>
+  <metric name="Number of Files in the Project">2</metric>
+  <metric name="Depth of the Project File System Tree">1</metric>
+  <metric name="Average Number of nonepmty Lines per PyFile">8.0</metric>
+  <metric name="Average Number of Lines per Method/func">5.333333333333333</metric>
+  <metric name="Average Number of Methods per Class">2.0</metric>
+  <metric name="Average Number of Parameters per Method/Function">0.0</metric>
+  <metric name="Number of Functions or Methods Without Docstrings">2</metric>
+  <metric name="Number of Functions or Methods Without Typing">2</metric>
+  <metric name="Number of Context Managers">1</metric>
+  <metric name="Number of Handled Exceptions">0</metric>
+  <metric name="Method Hiding Factor">0.0</metric>
+  <metric name="Attribute Hiding Factor">0.0</metric>
+  <metric name="Method Inheritance Factor">{'Test': 0.0}</metric>
+  <metric name="Polymorphism Factor">{'Test': 0.0}</metric>
+  <metric name="Depth Of Inheritance Tree">1</metric>
+  <metric name="Duplication Percentage">0.0</metric>
+  <metric name="Maximum stripped py Line Length">22</metric>
+  <metric name="Lines of Code">16</metric>
+  <metric name="Average Line Length">6.541666666666667</metric>
+  <metric name="Average Identifier Length">{'class': 4.0, 'method': 7.5, 'field': 5.0}</metric>
+  <metric name="Number of pass keywords">1</metric>
+  <metric name="Cyclomatic Complexity">{WindowsPath('C:/Users/ASUS/python-extended-stats-tests/tests/main.py'): {'long_method': 1, 'help': 1}, WindowsPath('C:/Users/ASUS/python-extended-stats-tests/tests/test.py'): {'testiii': 3}}</metric>
+  <metric name="Halstead Complexity">{WindowsPath('C:/Users/ASUS/python-extended-stats-tests/tests/main.py'): {'n1': 1, 'n2': 4, 'N1': 2, 'N2': 4}, WindowsPath('C:/Users/ASUS/python-extended-stats-tests/tests/test.py'): {'n1': 0, 'n2': 0, 'N1': 0, 'N2': 0}}</metric>
+  <metric name="LCOM">{'Test': {'lcom': 1, 'methods': 2, 'attributes': []}}</metric>
+  <metric name="Dead code: unused objects">['selfa', 'long_method', 'help', 'testiii', 'if', 'if']</metric>
+ </metrics>
+</report>

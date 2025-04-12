@@ -64,7 +64,9 @@ class AverageBasedMetrics(ProjectMetrics):
 
         for py_file_path in py_files:
             with open(py_file_path, 'r', encoding='utf-8') as file:
-                total_lines += sum(1 for _ in file)
+                for line in file.readlines():
+                    if line.strip():
+                        total_lines += 1
 
         return total_lines / file_count
 

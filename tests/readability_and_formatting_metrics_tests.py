@@ -113,7 +113,7 @@ def my_function():
         """Test average line length calculation."""
         avg = metrics.\
             calculate_average_line_length(mixed_length_files)
-        assert avg == 2.5
+        assert avg == 3
 
     def test_identifier_lengths(self, metrics, parsed_identifiers):
         """Test average identifier length calculations."""

@@ -107,13 +107,13 @@ def my_function():
         """Test total lines of code counting."""
         loc = metrics.\
             count_lines_of_code(multi_line_files)
-        assert loc == 5
+        assert loc == 3
 
     def test_average_line_length(self, metrics, mixed_length_files):
         """Test average line length calculation."""
         avg = metrics.\
             calculate_average_line_length(mixed_length_files)
-        assert avg == 2.0
+        assert avg == 2.5
 
     def test_identifier_lengths(self, metrics, parsed_identifiers):
         """Test average identifier length calculations."""

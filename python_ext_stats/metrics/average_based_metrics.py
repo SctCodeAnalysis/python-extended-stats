@@ -22,9 +22,9 @@ class AverageBasedMetrics(ProjectMetrics):
         """
         result_metrics = {}
 
-        result_metrics["Average Number of Lines per File"] = \
+        result_metrics["Average Number of nonepmty Lines per PyFile"] = \
             cls.count_average_number_of_lines_per_file(py_files)
-        result_metrics["Average Number of Lines per Method"] = \
+        result_metrics["Average Number of Lines per Method/func"] = \
             cls.count_average_number_of_lines_per_method(parsed_py_files)
         result_metrics["Average Number of Methods per Class"] =  \
             cls.count_average_number_of_methods_per_class(parsed_py_files)
@@ -42,8 +42,8 @@ class AverageBasedMetrics(ProjectMetrics):
             List: a list of strings as metrics' names
         """
         return [
-            "Average Number of Lines per File",
-            "Average Number of Lines per Method",
+            "Average Number of nonepmty Lines per PyFile",
+            "Average Number of Lines per Method/func",
             "Average Number of Methods per Class",
             "Average Number of Parameters per Method/Function"
         ]

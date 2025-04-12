@@ -27,7 +27,8 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
         """
         result_metrics = {}
 
-        result_metrics["Cyclomatic Complexity"] = cls.calculate_cyclomatic_complexity(py_files)
+        result_metrics["Cyclomatic Complexity"] = \
+            cls.calculate_cyclomatic_complexity(parsed_py_files, py_files)
         result_metrics["Halstead Complexity"] = cls.calculate_halstead_complexity(py_files)
         result_metrics["LCOM"] = cls.calculate_lcom(parsed_py_files)
         result_metrics["Dead code: unused objects"] = cls.find_dead_code(py_files)
@@ -49,7 +50,8 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
                 ]
 
     @staticmethod
-    def calculate_cyclomatic_complexity(py_files: List[str]) -> Dict[str, Dict[str, int]]:
+    def calculate_cyclomatic_complexity(parsed_py_files: List[str],\
+                                         py_files: List[str]) -> Dict[str, Dict[str, int]]:
         """
         Calculates cyclomatic complexity for each func in a Python file in the provided list.
             
@@ -59,28 +61,22 @@ class CodeComplexityAndQualityMetrics(ProjectMetrics):
         """
         results = {}
 
-        for file_path in py_files:
-            try:
-                with open(file_path, 'r', encoding='utf-8') as f:
-                    source_code = f.read()
-                tree = ast.parse(source_code)
-            except SyntaxError as e:
-                print(f"Syntax error in {file_path}: {e}")
-                continue
+        assert(len(parsed_py_files) == len(py_files))
 
+        for i, parsed_file in enumerate(parsed_py_files):
             file_complexities = {}
 
-            for node in ast.walk(tree):
+            for node in ast.walk(parsed_file):
                 if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
                     visitor = CyclomaticComplexityVisitor()
                     try:
                         visitor.visit(node)
                     except RecursionError:
-                        print("ERROR RECURSION in ", file_path)
+                        print("ERROR caused by RECURSION depth")
                         sys.exit()
                     file_complexities[node.name] = visitor.complexity
 
-            results[file_path] = file_complexities
+            results[py_files[i]] = file_complexities
 
         return results
 

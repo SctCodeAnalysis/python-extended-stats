@@ -195,12 +195,13 @@ class TestCodeComplexityAndQualityMetrics:
         assert "Dead code: unused objects" in result
 
     def test_cyclomatic_complexity(self, metrics: CodeComplexityAndQualityMetrics,\
-                                    temp_py_files: List[str]) -> None:
+                                    temp_py_files: List[str], parsed_py_files: List) -> None:
         """
         Tests the cyclomatic complexity calculation method.
         """
+
         complexities = metrics.\
-            calculate_cyclomatic_complexity(temp_py_files)
+            calculate_cyclomatic_complexity(parsed_py_files, temp_py_files)
         for file_path, data in complexities.items():
             for func_name, complexity in data.items():
                 if func_name == "complex_function":

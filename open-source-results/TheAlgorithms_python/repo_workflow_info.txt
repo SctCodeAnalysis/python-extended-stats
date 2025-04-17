@@ -1,7 +1,7 @@
 github url: https://github.com/TheAlgorithms/Python
 worktime: 31 sec
 
-Assumations:
+Assumptions:
 — The depth 0f 6 in a project filetree shows it's flatness 
 — This project has a large object-oriented architecture based on 304 classes and 1459 methods 
 — Considering the CBO metric we can state that there are some classes preferable to be rewrote

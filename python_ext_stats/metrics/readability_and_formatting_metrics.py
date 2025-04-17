@@ -22,7 +22,8 @@ class ReadabilityAndFormattingMetrics:
         result_metrics = {}
 
         result_metrics["Duplication Percentage"] = cls.calculate_duplication_percentage(py_files)
-        result_metrics["Maximum Line Length"] = cls.calculate_maximum_line_length(py_files)
+        result_metrics["Maximum py Line Length"] =\
+               cls.calculate_maximum_line_length(py_files)
         result_metrics["Lines of Code"] = cls.count_lines_of_code(py_files)
         result_metrics["Average Line Length"] = cls.calculate_average_line_length(py_files)
         result_metrics["Average Identifier Length"] = \
@@ -95,8 +96,6 @@ class ReadabilityAndFormattingMetrics:
             with open(py_file_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()
 
-                lines = [line.strip() for line in lines if line.strip()]
-
                 for line in lines:
                     max_length = max(max_length, len(line))
 
@@ -116,6 +115,7 @@ class ReadabilityAndFormattingMetrics:
         for py_file_path in py_files:
             with open(py_file_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()
+                lines = [line for line in lines if line.strip()]
                 lines_num += len(lines)
 
         return lines_num
@@ -134,7 +134,7 @@ class ReadabilityAndFormattingMetrics:
         for py_file_path in py_files:
             with open(py_file_path, 'r', encoding='utf-8') as file:
                 lines = file.readlines()
-                sum_len += sum(len(line) - 1 for line in lines)
+                sum_len += sum(len(line) for line in lines if line.strip())
                 lines_num += len(lines)
 
         return sum_len / lines_num if lines_num else 0.0

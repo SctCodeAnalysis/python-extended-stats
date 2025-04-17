@@ -34,7 +34,7 @@ class CodeStructuresMetrics(ProjectMetrics):
             cls.count_max_method_length(parsed_py_files)
         result_metrics["Number of Decorators"] = \
             cls.count_number_of_decorators(parsed_py_files)
-        result_metrics["Number of Public Constants in File"] = \
+        result_metrics["Number of Constants in Files"] = \
             cls.count_number_of_constants(parsed_py_files)
 
         return result_metrics
@@ -53,7 +53,7 @@ class CodeStructuresMetrics(ProjectMetrics):
                 "Maximum Number of Method Parameters",
                 "Maximum Method Length",
                 "Number of Decorators",
-                "Number of Public Constants in File"
+                "Number of Constants in File"
                 ]
 
     @staticmethod

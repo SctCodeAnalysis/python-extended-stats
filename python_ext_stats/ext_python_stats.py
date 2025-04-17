@@ -10,6 +10,8 @@ from typing import Dict, List
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
 
+from docs.metrics_list import metrics_list as ml
+
 from python_ext_stats.config import VENV_DIRS
 from python_ext_stats.metrics.average_based_metrics import AverageBasedMetrics
 from python_ext_stats.metrics.cbo_metric import CBOMetric
@@ -29,8 +31,6 @@ from python_ext_stats.metrics.project_metrics import ProjectMetrics
 from python_ext_stats.metrics.readability_and_formatting_metrics import (
     ReadabilityAndFormattingMetrics,
 )
-
-from docs.metrics_list import metrics_list as ml
 
 
 class ExtPythonStats:
@@ -54,7 +54,7 @@ class ExtPythonStats:
 
         self.all_files = [
             f for f in self.repo_path.rglob("*")
-            if not any(part in VENV_DIRS for part in f.parts)
+            if f.is_file() and not any(part in VENV_DIRS for part in f.parts)
         ]
 
         self.py_files = [

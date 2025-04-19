@@ -46,7 +46,7 @@ The stats are exposed as an API as well as exported report (in XML format)
 ## Installation
 
 ```shell
-\> pip install git+https://github.com/SctCodeAnalysis/python-extended-stats
+pip install git+https://github.com/SctCodeAnalysis/python-extended-stats
 ```
 
 ## API Usage
@@ -70,5 +70,5 @@ stats.print(report, metrics_report_list)
 ## CLI Usage
 
 ```shell
-\> python-extended-stats --report <path_to_xml.xml> --path <path/to/repo>
+python-extended-stats --report <path_to_xml.xml> --path <path/to/repo>
 ```
